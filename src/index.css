@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: real;
+  src: url("../src/assets/font/IRANSansX-Medium.ttf");
+}
+body {
+  font-family: real;
+  background-color: #ffffff;
+}
+
+.app {
+  font-family: sans-serif;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  direction: rtl;
+}
+
+.sidebar-field {
+  all: unset;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  height: 37px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.sidebar-field.overlay {
+  /* background: black; */
+  color: white;
+  display: flex;
+  /* width: 50%;
+    justify-content: center; */
+}
+
+.canvas {
+  flex: 1;
+  border: 2px solid #f0eeeedc;
+  margin: 13px 18px;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  overflow: scroll !important;
+}
+.overlay {
+  width: 100%;
+  /* height: 50px; */
+  border: 2px solid rgba(0, 0, 205, 0.7);
+  /* background-color: #6ca0dc; */
+  border-radius: 12%;
+}
+
+.canvas-field {
+  padding-right: 15px;
+  padding-left: 15px;
+  border-radius: 20px;
+}
+
+.canvas-field.overlay {
+  opacity: 0.5;
+}
+
+.canvas-field > * {
+  width: 100%;
+}
+
+.spacer {
+  /* background: #8eaed3; */
+  width: 100%;
+  background-color: #3874cb !important;
+  border-radius: 2px;
+  opacity: 0.5;
+  height: 40px;
+}
+.btn-outline-primary {
+  color: #6ca0dc;
+  border-color: #6ca0dc;
+}
+.btn-outline-primary::hover {
+  color: #fff !important;
+  /* border-color: #6ca0dc; */
+}
+.input-handle {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  height: 24px;
+  width: 35%;
+  margin-top: 5px;
+  margin-right: 18px;
+  align-items: flex-end;
+  /* background-color: #6ca0dc; */
+  justify-content: flex-end;
+  transform: translateY(36px);
+  margin-left: 48px;
+}
+
+.draggble-inputs {
+  cursor: "default";
+}
+.shadow1:hover {
+  background: #fff;
+  box-shadow: 2px 2px 1px lightblue;
+}
+.edit-bar {
+  border: 2px solid rgba(0, 0, 0, 0.221);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+.w-smal {
+  width: 24%;
+}
+.w-lg {
+  width: 30%;
+}
+.drag-handler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.6%;
+}
+.drag-handler:hover {
+  background-color: #33333340;
+  border-radius: 20%;
+}
+
+.custom-inputs {
+  /* border: 1px; */
+  border-radius: 0.25rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.495);
+  width: 100%;
+  z-index: 44;
+}
+.custom-btn {
+  background-color: #1a3abb;
+  width: 25%;
+  border-radius: 0.25rem;
+  color: #fff;
+  border: none;
+}
+.sidebar-container {
+  width: 10%;
+}
+
+.header-container {
+  width: 100%;
+  /* background-color: #33333333; */
+  font-family: IRANSansX;
+}
+
+.aside-main {
+  border-left: 1.4px solid rgba(0, 0, 0, 0.295);
+  /* padding: 6px 6px;; */
+  height: 91vh;
+}
+.filter-main {
+  border: 1px solid #00000050 !important;
+  cursor: pointer;
+}
+.border-form-item {
+  border: 1.3px solid #00000050;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.border-form-item:hover {
+  border: none;
+  outline: 3px solid #f59f0b48;
+  border-radius: 6px;
+}
+.subitem-forms {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 10px;
+}
+
+.side-item:hover {
+  transform: scaleY(1.1);
+}
+
+.underline-hover:hover {
+  border-bottom: 1.4px solid rgba(0, 0, 255, 0.511);
+}
+
+.pr-2 {
+  padding-right: 8px !important;
+}
+.pr-4 {
+  padding-right: 16px !important;
+}
+
+@media only screen and (max-width: 1100px) {
+  .edit-text {
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .sidebar-container {
+    width: 15%;
+  }
+  .drag-handler {
+    width: 4.6%;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .sidebar-container {
+    width: 18%;
+  }
+  .formS {
+    display: none;
+  }
+  .drag-handler {
+    width: 5.6%;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .drag-handler {
+    width: 7.6%;
+  }
+}
+.muirtl-js1rk4-MuiButtonBase-root-MuiButton-root {
+  background-color: #ef8d32 !important;
+}
+.muirtl-zyqt6 {
+  border-radius: 10px;
+}
+.muirtl-r16uq1 {
+  border-radius: 10px;
+}
