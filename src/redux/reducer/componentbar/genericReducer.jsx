@@ -25,6 +25,9 @@ const genericElementConfigReducer = (state = initialState, action) => {
         bgColor,
         textColor,
         textSize,
+        mapPath,
+        urlTable,
+        dataTable,
       } = action.data;
 
       // Filter out empty objects from the existing elements
@@ -52,6 +55,9 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   textColor: textColor,
                   textSize: textSize,
                   type: type,
+                  mapPath: mapPath,
+                  urlTable: urlTable,
+                  dataTable: dataTable,
                 }
               : el
           ),
@@ -71,6 +77,9 @@ const genericElementConfigReducer = (state = initialState, action) => {
               bgColor,
               textColor,
               textSize,
+              mapPath,
+              urlTable,
+              dataTable,
             },
           ],
         };

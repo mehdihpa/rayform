@@ -14,6 +14,8 @@ const emailementConfigReducer = (state = initialState, action) => {
         bgColor,
         textColor,
         textSize,
+        mapPath,
+        urlTable,
       } = action.data;
 
       // Filter out empty objects from the existing elements
@@ -41,6 +43,8 @@ const emailementConfigReducer = (state = initialState, action) => {
                   textColor: textColor,
                   textSize: textSize,
                   type: type,
+                  mapPath: mapPath,
+                  urlTable: urlTable,
                 }
               : el
           ),
@@ -60,6 +64,8 @@ const emailementConfigReducer = (state = initialState, action) => {
               bgColor,
               textColor,
               textSize,
+              mapPath,
+              urlTable,
             },
           ],
         };

@@ -83,5 +83,32 @@ export const TableData = () => {
             ?.filter((item) => item?.type === "table" && item?.uuid)
             .map((item) => item?.textSize)
         : filteredElement?.textSize,
+    urlTable:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "table")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "table" && item?.uuid)
+            .map((item) => item?.urlTable)
+        : filteredElement?.urlTable,
+    mapPath:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "table")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "table" && item?.uuid)
+            .map((item) => item?.mapPath)
+        : filteredElement?.mapPath,
+    dataTable:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "table")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "table" && item?.uuid)
+            .map((item) => item?.dataTable)
+        : filteredElement?.dataTable,
   };
 };

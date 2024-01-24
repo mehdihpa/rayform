@@ -50,8 +50,9 @@ export const createFieldsIdArray = (data) => {
     },
   });
 };
-export const getFakeData = () => {
-  return axios.get(`https://jsonplaceholder.typicode.com/users`, {
+export const getFakeData = (path) => {
+  console.log(path)
+  return axios.get(`${path}`, {
     headers: {
       Authorization: "ali",
     },

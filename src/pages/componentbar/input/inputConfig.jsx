@@ -5,6 +5,7 @@ import { inputConfig, showEdit } from "../../../redux/action";
 import { useSelector } from "react-redux";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { Button } from "@mui/material";
+import ColorPicker from "react-pick-color";
 export const InputConfig = () => {
   const dispatchConfgi = useDispatch();
   const elementId = useSelector((state) => state?.typeElementReducer?.type?.id);
@@ -52,7 +53,12 @@ export const InputConfig = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  // const handleColorChange = (color) => {
+  //   setLocationFormData({
+  //     ...locationFormData,
+  //     bgColor: color.hex,
+  //   });
+  // };
   const handleDispatch = () => {
     const newElement = {
       uuid: elementId,
@@ -173,6 +179,15 @@ export const InputConfig = () => {
         >
           رنگ پس زمینه
         </label>
+        {/* <ColorPicker
+          type="text"
+          name="bgColor"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="رنگ پس زمینه را وارد کنید"
+          required
+          onChange={(color) => handleColorChange(color)}
+          color={locationFormData.bgColor}
+        /> */}
         <input
           type="text"
           name="bgColor"

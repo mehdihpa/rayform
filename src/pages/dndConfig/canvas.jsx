@@ -55,20 +55,22 @@ export function Field(props) {
 }
 
 function SortableField(props) {
-  let { id, index, field, onRemove } = props;
+  let { id, index, field, onRemove, deleteField } = props;
 
-  let { attributes, listeners, setNodeRef, transform, transition } =
+  let { attributes, listeners, setNodeRef, transform, transition, removable } =
     useSortable({
-      id,
+      id: id,
       data: {
         index,
         id,
         field,
+        parent: "n",
       },
     });
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    removable,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -81,7 +83,9 @@ function SortableField(props) {
   let dispatchConfgi = useDispatch();
   let deleteElement = useDispatch();
   let setIdElementDispatch = useDispatch();
-
+  const handleDelete = () => {
+    deleteField(id); // Call deleteField with the field's ID
+  };
   let elementType = useSelector(
     (state) => state?.typeElementReducer?.type?.type
   );
@@ -308,7 +312,7 @@ function SortableField(props) {
             deleteElement({ type: "deleteElement", uuid: field.id });
             setIdElementDispatch(setIdElement(field?.id));
             resetElementType(typeElelment({ type: undefined, id: undefined }));
-            onRemove(field?.id);
+            handleDelete();
           }}
         >
           <DeleteOutline className="text-red-600 cursor-pointer" />
@@ -334,8 +338,7 @@ function SortableField(props) {
   );
 }
 export default function Canvas(props) {
-  let { fields } = props;
-  console.log(fields, props, "fields");
+  let { fields, deleteField } = props;
   let { listeners, setNodeRef, transform, transition } = useDroppable({
     id: "canvas_droppable",
     data: {
@@ -348,24 +351,17 @@ export default function Canvas(props) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-  let idElementToSet = useSelector(
-    (state) => state?.setIdElementReducer?.idElement
-  );
-  const [items, setItems] = useState([]);
 
-  const handleRemove = (id) => fields.filter((item) => item !== id);
-  useEffect(() => {}, [idElementToSet]);
   return (
     <div ref={setNodeRef} className="canvas" style={style} {...listeners}>
       <div className="canvas-fields ">
         {fields.map((f, i) => (
           <SortableField
-            onRemove={handleRemove}
             key={f.id}
             id={f.id}
             field={f}
             index={i}
-            removable
+            deleteField={deleteField} // Pass deleteField function
           />
         ))}
       </div>

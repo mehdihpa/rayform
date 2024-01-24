@@ -41,9 +41,7 @@ function createSpacer({ id }) {
 }
 
 export default function FormDrawer() {
-  let [sidebarFieldsRegenKey, setSidebarFieldsRegenKey] = useState(
-    Date.now()
-  );
+  let [sidebarFieldsRegenKey, setSidebarFieldsRegenKey] = useState(Date.now());
   let spacerInsertedRef = useRef();
   let currentDragFieldRef = useRef();
   let [activeSidebarField, setActiveSidebarField] = useState(); // only for fields from the sidebar
@@ -51,6 +49,12 @@ export default function FormDrawer() {
   let [data, updateData] = useImmer({
     fields: [],
   });
+  function deleteField(id) {
+    updateData((draft) => {
+      draft.fields = draft.fields.filter((f) => f.id !== id);
+      // console.log("fields:", draft.fields);
+    });
+  }
 
   let cleanUp = () => {
     setActiveSidebarField(null);
@@ -250,7 +254,8 @@ export default function FormDrawer() {
               strategy={verticalListSortingStrategy}
               items={fields.map((f) => f.id)}
             >
-              <Canvas fields={fields} /> {/* componentBar */}
+              <Canvas fields={fields} deleteField={deleteField} />{" "}
+              {/* componentBar */}
               <div className="flex flex-col overflow-scroll gap-y-4 border border-slate-200 rounded-lg mt-3 mx-1 w-[456px] px-5 py-7 ">
                 {/* <div
                   className={`self-end ${elementType === "" ? "hidden" : ""} `}
@@ -331,64 +336,6 @@ export default function FormDrawer() {
       >
         json :<div>{<pre>{JSON?.stringify(json, null, 5)}</pre>}</div>
       </div>
-      {/* <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonPass :<div>{<pre>{JSON?.stringify(jsonPass, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonNumber :
-        <div>{<pre>{JSON?.stringify(jsonNumber, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonTextarea :
-        <div>{<pre>{JSON?.stringify(jsonTextarea, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonCheckbox :
-        <div>{<pre>{JSON?.stringify(jsonCheckbox, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonRadio :<div>{<pre>{JSON?.stringify(jsonRadio, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonEmail :<div>{<pre>{JSON?.stringify(jsonEmail, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonMobile :
-        <div>{<pre>{JSON?.stringify(jsonMobile, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonLink :<div>{<pre>{JSON?.stringify(jsonLink, null, 5)}</pre>}</div>
-      </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        jsonDate :<div>{<pre>{JSON?.stringify(jsonDate, null, 5)}</pre>}</div>
-      </div> */}
     </div>
   );
 }

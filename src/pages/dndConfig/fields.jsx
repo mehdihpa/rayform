@@ -34,7 +34,7 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { TableData } from "../componentbar/table/tableData";
 import { getFakeData } from "../../api/appApi";
 import DataTable from "react-data-table-component";
-import { TextField } from "@mui/material";
+import { Alert, TextField } from "@mui/material";
 export let fields = [
   {
     type: "input",
@@ -128,37 +128,69 @@ export let renderers = {
       bgColor,
       textColor,
       textSize,
+      urlTable,
+      mapPath,
+      dataTable,
       // status,
     } = TableData();
     let handleChange = (event) => {
       setAge(event.target.value);
     };
     const [data, setData] = useState([]);
-    getFakeData().then((res) => {
-      setData(res?.data);
+    console.log(urlTable, mapPath, data);
+    getFakeData(urlTable).then((res) => {
+      setData(res?.[mapPath]);
     });
     console.log(data);
-    const columns = [
+    const [newColumnName, setNewColumnName] = useState("");
+
+    const [columns, setColumns] = useState([
       {
-        name: "نام ",
-        selector: (row) => row.name,
+        name: undefined,
+        selector: undefined,
       },
-      {
-        name: "نام کاربری",
-        selector: (row) => row.username,
-      },
-      {
-        name: "ایمیل",
-        selector: (row) => row.email,
-      },
-      {
-        name: "موبایل",
-        selector: (row) => row.phone,
-      },
-    ];
+    ]);
+
+    useEffect(() => {
+      setColumns([
+        {
+          name: dataTable?.dropdownNameOptions
+            ?.filter((item) => item?.name != "")
+            ?.map((item) => item?.name),
+
+          selector: (row) =>
+            row?.[
+              dataTable?.dropdownKeyOptions
+                ?.filter((item) => item?.key != "")
+                .map((item) => item?.key)
+            ],
+        },
+      ]);
+    }, [mapPath]);
+
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <DataTable columns={columns} data={data} />
+        <DataTable
+          columns={columns}
+          data={data}
+          noDataComponent={
+            <Alert
+              className="w-full mt-2 flex justify-center text-md "
+              icon={false}
+              severity="info"
+            >
+              لیست یافت نشد!
+            </Alert>
+          }
+        />
+        {/* Input field and button to add a new column
+        <input
+          type="text"
+          value={newColumnName}
+          onChange={(e) => setNewColumnName(e.target.value)}
+          placeholder="Enter property name"
+        />
+        <button onClick={addColumn}>Add New Column</button> */}
       </div>
     );
   },
