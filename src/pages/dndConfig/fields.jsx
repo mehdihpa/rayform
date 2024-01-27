@@ -141,7 +141,6 @@ export let renderers = {
     getFakeData(urlTable).then((res) => {
       setData(res?.[mapPath]);
     });
-    console.log(data);
     const [newColumnName, setNewColumnName] = useState("");
 
     const [columns, setColumns] = useState([
@@ -165,7 +164,7 @@ export let renderers = {
             ],
         },
       ]);
-    }, [data]);
+    }, [dataTable]);
 
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -227,7 +226,7 @@ export let renderers = {
             {dropdownData?.dropdownNameOptions?.map((item) => (
               <MenuItem
                 key={item?.name}
-                value={item?.name}
+                value={item?.key}
                 style={{ color: textColor }}
               >
                 {item?.name}

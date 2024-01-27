@@ -12,20 +12,30 @@ export const DDConfig = () => {
   const showDisplay = useSelector((state) => state?.showEditReducer?.display);
   const dispatchDisplay = useDispatch();
   const [dropdownNameOptions, setDropdownNameOptions] = useState([
-    { name: "" },
+    { name: "", key: "" },
   ]);
   const [newNameOption, setNewNameOption] = useState();
+  const [newKeyOption, setNewKeyOption] = useState();
+
   const handleAddNameOption = () => {
     if (
       newNameOption.trim() !== "" &&
       !dropdownNameOptions.some((option) => option.name === newNameOption)
     ) {
-      setDropdownNameOptions([...dropdownNameOptions, { name: newNameOption }]);
+      setDropdownNameOptions([
+        ...dropdownNameOptions,
+        { name: newNameOption, key: newKeyOption },
+      ]);
       setNewNameOption("");
+      setNewKeyOption("");
+
     }
   };
   const handleNameInputChange = (e) => {
-    setNewNameOption(e.target.value);
+    setNewNameOption( e.target.value);
+  };
+  const handleKeyInputChange = (e) => {
+    setNewKeyOption(e.target.value );
   };
   const elementType = useSelector(
     (state) => state?.typeElementReducer?.type?.type
@@ -278,6 +288,22 @@ export const DDConfig = () => {
               id="newNameOption"
               value={newNameOption}
               onChange={handleNameInputChange}
+              placeholder="عنوان را وارد کنید"
+              className=" my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+          <div className="my-3">
+            <label
+              className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="newKeyOption"
+            >
+              کلید{" "}
+            </label>
+            <input
+              type="text"
+              id="newKeyOption"
+              value={newKeyOption}
+              onChange={handleKeyInputChange}
               placeholder="عنوان را وارد کنید"
               className=" my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
