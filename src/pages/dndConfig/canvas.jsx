@@ -131,6 +131,7 @@ function SortableField(props) {
             let tableData = json.element.find(
               (item) => item?.uuid === field?.id
             );
+
             {
               field?.type === "input"
                 ? dispatchConfgi(
@@ -297,6 +298,9 @@ function SortableField(props) {
                       bgColor: tableData?.bgColor,
                       textColor: tableData?.textColor,
                       textSize: tableData?.textSize,
+                      urlTable: tableData?.urlTable,
+                      mapPath: tableData?.mapPath,
+                      dataTable: tableData?.dataTable,
                       type: elementType,
                     })
                   )

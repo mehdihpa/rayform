@@ -34,7 +34,7 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { TableData } from "../componentbar/table/tableData";
 import { getFakeData } from "../../api/appApi";
 import DataTable from "react-data-table-component";
-import { Alert, TextField } from "@mui/material";
+import { Alert, OutlinedInput, TextField } from "@mui/material";
 export let fields = [
   {
     type: "input",
@@ -166,7 +166,7 @@ export let renderers = {
             ],
         },
       ]);
-    }, [mapPath]);
+    }, []);
 
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -249,6 +249,8 @@ export let renderers = {
             id="demo-simple-select"
             value={age}
             onChange={handleChange}
+            input={<OutlinedInput label="Name" />}
+
             style={{ backgroundColor: bgColor, color: textColor }}
           >
             {dynamicMenuItems.map((item) => (
