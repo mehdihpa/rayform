@@ -165,7 +165,7 @@ export let renderers = {
             ],
         },
       ]);
-    }, []);
+    }, [data]);
 
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
