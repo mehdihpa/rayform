@@ -137,10 +137,25 @@ export let renderers = {
       setAge(event.target.value);
     };
     const [data, setData] = useState([]);
-    console.log(urlTable, mapPath, data);
-    getFakeData(urlTable).then((res) => {
-      setData(res?.[mapPath]);
-    });
+    useEffect(() => {
+      getFakeData(urlTable).then((res) => {
+        setData(res?.[mapPath]);
+        setColumns([
+          {
+            name: dataTable?.dropdownNameOptions
+              ?.filter((item) => item?.name != "")
+              ?.map((item) => item?.name),
+
+            selector: (row) =>
+              row?.[
+                dataTable?.dropdownKeyOptions
+                  ?.filter((item) => item?.key != "")
+                  .map((item) => item?.key)
+              ],
+          },
+        ]);
+      });
+    }, [urlTable]);
     const [newColumnName, setNewColumnName] = useState("");
 
     const [columns, setColumns] = useState([
@@ -149,22 +164,6 @@ export let renderers = {
         selector: undefined,
       },
     ]);
-    useEffect(() => {
-      setColumns([
-        {
-          name: dataTable?.dropdownNameOptions
-            ?.filter((item) => item?.name != "")
-            ?.map((item) => item?.name),
-
-          selector: (row) =>
-            row?.[
-              dataTable?.dropdownKeyOptions
-                ?.filter((item) => item?.key != "")
-                .map((item) => item?.key)
-            ],
-        },
-      ]);
-    }, [data]);
 
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
