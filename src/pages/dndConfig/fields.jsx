@@ -150,7 +150,6 @@ export let renderers = {
         selector: undefined,
       },
     ]);
-
     useEffect(() => {
       setColumns([
         {
@@ -204,35 +203,10 @@ export let renderers = {
       bgColor,
       textColor,
       textSize,
+      dropdownData,
       // status,
     } = DropDownData();
-
-    const [age, setAge] = useState("");
-    const [dynamicMenuItems, setDynamicMenuItems] = useState([
-      { value: 10, label: "Ten" },
-      { value: 20, label: "Twenty" },
-      { value: 30, label: "Thirty" },
-    ]);
-    const [newItem, setNewItem] = useState("");
-    const handleChange = (event) => {
-      setAge(event.target.value);
-    };
-
-    const handleNewItemChange = (event) => {
-      setNewItem(event.target.value);
-    };
-
-    const addNewItem = () => {
-      if (newItem.trim() === "") {
-        return;
-      }
-      const newItemObject = {
-        value: dynamicMenuItems.length + 1,
-        label: newItem.trim(),
-      };
-      setDynamicMenuItems([...dynamicMenuItems, newItemObject]);
-      setNewItem("");
-    };
+    console.log(dropdownData?.dropdownNameOptions, "dropdownData");
 
     return (
       <Box sx={{ minWidth: 120 }}>
@@ -247,19 +221,16 @@ export let renderers = {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
-            onChange={handleChange}
             input={<OutlinedInput label="Name" />}
-
             style={{ backgroundColor: bgColor, color: textColor }}
           >
-            {dynamicMenuItems.map((item) => (
+            {dropdownData?.dropdownNameOptions?.map((item) => (
               <MenuItem
-                key={item.value}
-                value={item.value}
+                key={item?.name}
+                value={item?.name}
                 style={{ color: textColor }}
               >
-                {item.label}
+                {item?.name}
               </MenuItem>
             ))}
           </Select>

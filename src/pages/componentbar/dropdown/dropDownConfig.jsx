@@ -5,11 +5,28 @@ import { dropdownConfig, showEdit } from "../../../redux/action";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { Add } from "@mui/icons-material";
 export const DDConfig = () => {
   const dispatchConfgi = useDispatch();
   const elementId = useSelector((state) => state?.typeElementReducer?.type?.id);
   const showDisplay = useSelector((state) => state?.showEditReducer?.display);
   const dispatchDisplay = useDispatch();
+  const [dropdownNameOptions, setDropdownNameOptions] = useState([
+    { name: "" },
+  ]);
+  const [newNameOption, setNewNameOption] = useState();
+  const handleAddNameOption = () => {
+    if (
+      newNameOption.trim() !== "" &&
+      !dropdownNameOptions.some((option) => option.name === newNameOption)
+    ) {
+      setDropdownNameOptions([...dropdownNameOptions, { name: newNameOption }]);
+      setNewNameOption("");
+    }
+  };
+  const handleNameInputChange = (e) => {
+    setNewNameOption(e.target.value);
+  };
   const elementType = useSelector(
     (state) => state?.typeElementReducer?.type?.type
   );
@@ -41,6 +58,9 @@ export const DDConfig = () => {
         // status: selectedElement?.status || true, // Update this according to your data structure
         type: elementType,
         textSize: locationFormData.textSize || "",
+        dropdownData: {
+          dropdownNameOptions: dropdownNameOptions,
+        },
       });
     }
   }, [json?.element, elementId]);
@@ -62,6 +82,9 @@ export const DDConfig = () => {
       textColor: locationFormData.textColor,
       type: elementType,
       textSize: locationFormData.textSize,
+      dropdownData: {
+        dropdownNameOptions: dropdownNameOptions,
+      },
       // status: true, // Update this according to your data structure
     };
 
@@ -222,6 +245,51 @@ export const DDConfig = () => {
             />{" "}
             بزرگ
           </label>
+        </div>
+      </div>
+      <div>
+        <div>
+          <label
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            htmlFor="dynamicDropdown"
+          >
+            لیست گزینه ها
+          </label>
+          <select
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="dynamicDropdown"
+          >
+            {dropdownNameOptions.map((option, index) => (
+              <option key={index} value={option.name}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+
+          <div className="my-3">
+            <label
+              className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="newNameOption"
+            >
+              عنوان{" "}
+            </label>
+            <input
+              type="text"
+              id="newNameOption"
+              value={newNameOption}
+              onChange={handleNameInputChange}
+              placeholder="عنوان را وارد کنید"
+              className=" my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+        </div>
+        <div className="flex flex-row justify-end">
+          <button
+            className=" text-white bg-orange-400 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-9 py-1.5 me-2 mb-2"
+            onClick={handleAddNameOption}
+          >
+            <Add /> اضافه کردن
+          </button>
         </div>
       </div>
       <Button

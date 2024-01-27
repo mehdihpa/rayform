@@ -28,6 +28,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
         mapPath,
         urlTable,
         dataTable,
+        dropdownData,
       } = action.data;
 
       // Filter out empty objects from the existing elements
@@ -58,6 +59,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   mapPath: mapPath,
                   urlTable: urlTable,
                   dataTable: dataTable,
+                  dropdownData: dropdownData,
                 }
               : el
           ),
@@ -80,6 +82,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
               mapPath,
               urlTable,
               dataTable,
+              dropdownData,
             },
           ],
         };

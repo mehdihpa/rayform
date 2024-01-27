@@ -83,5 +83,14 @@ export const DropDownData = () => {
             ?.filter((item) => item?.type === "dropDown" && item?.uuid)
             .map((item) => item?.textSize)
         : filteredElement?.textSize,
+    dropdownData:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "dropDown")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "dropDown" && item?.uuid)
+            .map((item) => item?.dropdownData)
+        : filteredElement?.dropdownData,
   };
 };
