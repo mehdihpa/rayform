@@ -9,7 +9,6 @@ export const TableData = () => {
   )[0];
 
   useEffect(() => {}, [elementId, filteredElement, json]);
-
   return {
     label:
       elementId !=

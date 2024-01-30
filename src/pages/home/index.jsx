@@ -116,7 +116,7 @@ const HomePage = ({ action }) => {
   };
   const formDrawer = (label, key) => {
     dispatchLabel(formLabelToDraw(label));
-    console.log(label,"label")
+    console.log(label, "label");
     navigate(`/app/${label}/${key}`);
   };
   const columns = [
@@ -170,6 +170,8 @@ const HomePage = ({ action }) => {
       ),
     },
   ];
+  console.log(columns, "col");
+
   const formState = useSelector(
     (state) => state?.updateListByIdReducer.formState
   );

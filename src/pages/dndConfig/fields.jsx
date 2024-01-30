@@ -118,7 +118,6 @@ export let fields = [
 
 export let renderers = {
   table: () => {
-    let [age, setAge] = React.useState("");
     let {
       label,
       type,
@@ -133,61 +132,49 @@ export let renderers = {
       dataTable,
       // status,
     } = TableData();
-    let handleChange = (event) => {
-      setAge(event.target.value);
-    };
+
     const [data, setData] = useState([]);
+
     useEffect(() => {
       getFakeData(urlTable).then((res) => {
         setData(res?.[mapPath]);
-        setColumns([
-          {
-            name: dataTable?.dropdownNameOptions
-              ?.filter((item) => item?.name != "")
-              ?.map((item) => item?.name),
-
-            selector: (row) =>
-              row?.[
-                dataTable?.dropdownKeyOptions
-                  ?.filter((item) => item?.key != "")
-                  .map((item) => item?.key)
-              ],
-          },
-        ]);
       });
     }, [urlTable]);
-    const [newColumnName, setNewColumnName] = useState("");
-
-    const [columns, setColumns] = useState([
-      {
-        name: undefined,
-        selector: undefined,
-      },
-    ]);
 
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <DataTable
-          columns={columns}
-          data={data}
-          noDataComponent={
-            <Alert
-              className="w-full mt-2 flex justify-center text-md "
-              icon={false}
-              severity="info"
-            >
-              لیست یافت نشد!
-            </Alert>
-          }
-        />
-        {/* Input field and button to add a new column
-        <input
-          type="text"
-          value={newColumnName}
-          onChange={(e) => setNewColumnName(e.target.value)}
-          placeholder="Enter property name"
-        />
-        <button onClick={addColumn}>Add New Column</button> */}
+        <table className="table-auto divide-y divide-gray-200 dark:divide-gray-700">
+          <thead>
+            <tr>
+              {dataTable?.dropdownNameOptions
+                ?.filter((item) => item?.name !== "" && item?.key !== "")
+                ?.map((item) => (
+                  <th
+                    key={item.key}
+                    className="px-6 py-3 text-center text-md font-medium text-gray-500 uppercase "
+                  >
+                    {item.name}
+                  </th>
+                ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            {data?.map((item, index) => (
+              <tr key={index}>
+                {dataTable?.dropdownNameOptions
+                  ?.filter((option) => option?.key !== "")
+                  ?.map((option, index) => (
+                    <td
+                      key={index}
+                      className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                    >
+                      {item[option.key]}
+                    </td>
+                  ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   },
