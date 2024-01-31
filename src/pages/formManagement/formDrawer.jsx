@@ -238,7 +238,7 @@ export default function FormDrawer() {
         </div>
       </div>
       <div className="p-4 ">
-        <hr className="bg-slate-100 h-1" />
+        <hr className="bg-slate-100 -mb-6" />
       </div>
       <div className="app">
         <div className="content mx-2">
@@ -257,39 +257,6 @@ export default function FormDrawer() {
               <Canvas fields={fields} deleteField={deleteField} />{" "}
               {/* componentBar */}
               <div className="flex flex-col overflow-scroll gap-y-4 border border-slate-200 rounded-lg mt-3 mx-1 w-[456px] px-5 py-7 ">
-                {/* <div
-                  className={`self-end ${elementType === "" ? "hidden" : ""} `}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="34"
-                    height="34"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="9"
-                      fill="#7E869E"
-                      fill-opacity="0.25"
-                    />
-                    <path
-                      d="M16 8L8 16"
-                      stroke="#222222"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M8 8L16 16"
-                      stroke="#222222"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div> */}
                 <div>
                   {elementType === "input" ? (
                     <InputConfig />
@@ -330,11 +297,17 @@ export default function FormDrawer() {
           </DndContext>
         </div>
       </div>
-      <div
-        style={{ direction: "ltr" }}
-        className="flex flex-col gap-y- mt-5 mx-5"
-      >
-        json :<div>{<pre>{JSON?.stringify(json, null, 5)}</pre>}</div>
+      <div className="mx-3 my-6 ">
+        <span className="text-slate-500 font-bold mx-1.5">ساختار Json</span>
+
+        <div
+          style={{ direction: "ltr" }}
+          className="flex flex-col gap-y- mt-2  border border-amber-100 rounded-md  p-3"
+        >
+          <div className="mt-2 ">
+            {<pre>{JSON?.stringify(json, null, 5)}</pre>}
+          </div>
+        </div>
       </div>
     </div>
   );

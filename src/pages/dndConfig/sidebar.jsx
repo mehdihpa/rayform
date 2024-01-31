@@ -37,7 +37,7 @@ function DraggableSidebarField(props) {
 
   return (
     <div
-      className=" border border-slate-200 rounded-lg -mb-3   "
+      className=" border bg-[#306ac2f6] border-slate-200 text-white rounded-lg -mb-3   "
       ref={setNodeRef}
       {...listeners}
       {...attributes}
@@ -58,13 +58,13 @@ export default function Sidebar(props) {
   return (
     <div
       key={fieldsRegKey}
-      className="border border-slate-200 rounded-lg mt-3 mx-1 w-60 px-5 py-7 drop-shadow-xl "
+      className="border  border-slate-200 rounded-lg mt-3 mx-1 w-60 px-3 py-3 drop-shadow-xl "
     >
       {" "}
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col  gap-y-5">
         {/* پایه */}
 
-        <div>
+        <div className="border-1 rounded-lg border-slate-200">
           {" "}
           <Accordion
             expanded={expanded === "panel1"}
@@ -75,10 +75,10 @@ export default function Sidebar(props) {
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
-              <div className="flex flex-row items-center  ">
-                <div className="-mt-2 ">
+              <div className="flex  flex-row items-center  ">
+                <div className="mt-2  ">
                   {" "}
-                  <h1 className="text-slate-500 text-lg">
+                  <h1 className="text-slate-500 fs-4  ">
                     <span>پایه </span>
                   </h1>
                 </div>
@@ -87,7 +87,7 @@ export default function Sidebar(props) {
             {fields
               .filter((f) => f.group === "base")
               .map((f) => (
-                <div className="mb-4">
+                <div className="mb-3">
                   <AccordionDetails>
                     <DraggableSidebarField key={f.title} field={f} />
                   </AccordionDetails>
@@ -97,7 +97,7 @@ export default function Sidebar(props) {
         </div>
         {/* پیشرفته */}
 
-        <div>
+        <div className=" border-1 rounded-lg  border-slate-200">
           {" "}
           <Accordion
             expanded={expanded === "panel2"}
@@ -108,10 +108,10 @@ export default function Sidebar(props) {
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
-              <div className="flex flex-row items-center  ">
-                <div className="-mt-2 ">
+              <div>
+                <div>
                   {" "}
-                  <h1 className="text-slate-500 text-lg">
+                  <h1 className="text-slate-500  mt-2 fs-4">
                     <span>پیشرفته </span>
                   </h1>
                 </div>
@@ -120,7 +120,7 @@ export default function Sidebar(props) {
             {fields
               .filter((f) => f.group === "advance")
               .map((f) => (
-                <div className="mb-4">
+                <div className="mb-3">
                   <AccordionDetails>
                     <DraggableSidebarField key={f.title} field={f} />
                   </AccordionDetails>

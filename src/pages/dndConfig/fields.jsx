@@ -20,6 +20,7 @@ import { EmailData } from "../componentbar/email/emailData";
 import { MobileData } from "../componentbar/mobilenumber/mobileData";
 import { LinkData } from "../componentbar/link/linkData";
 import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -35,6 +36,7 @@ import { TableData } from "../componentbar/table/tableData";
 import { getFakeData } from "../../api/appApi";
 import DataTable from "react-data-table-component";
 import { Alert, OutlinedInput, TextField } from "@mui/material";
+import Swal from "sweetalert2";
 export let fields = [
   {
     type: "input",
@@ -140,41 +142,47 @@ export let renderers = {
         setData(res?.[mapPath]);
       });
     }, [urlTable]);
-
+    console.log(dataTable?.dropdownNameOptions);
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="table-auto divide-y divide-gray-200 dark:divide-gray-700">
-          <thead>
-            <tr>
-              {dataTable?.dropdownNameOptions
-                ?.filter((item) => item?.name !== "" && item?.key !== "")
-                ?.map((item) => (
-                  <th
-                    key={item.key}
-                    className="px-6 py-3 text-center text-md font-medium text-gray-500 uppercase "
-                  >
-                    {item.name}
-                  </th>
-                ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {data?.map((item, index) => (
-              <tr key={index}>
+        {dataTable?.dropdownNameOptions === undefined ? (
+          <span className="flex flex-row justify-center m-2 text-gray-500">
+            تنظیمات سرویس یافت نشد!
+          </span>
+        ) : (
+          <table className="table-auto divide-y divide-gray-200 dark:divide-gray-700">
+            <thead>
+              <tr>
                 {dataTable?.dropdownNameOptions
-                  ?.filter((option) => option?.key !== "")
-                  ?.map((option, index) => (
-                    <td
-                      key={index}
-                      className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                  ?.filter((item) => item?.name !== "" && item?.key !== "")
+                  ?.map((item) => (
+                    <th
+                      key={item.key}
+                      className="px-6 py-3 text-center text-md font-medium text-gray-500 uppercase "
                     >
-                      {item[option.key]}
-                    </td>
+                      {item.name}
+                    </th>
                   ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              {data?.map((item, index) => (
+                <tr key={index}>
+                  {dataTable?.dropdownNameOptions
+                    ?.filter((option) => option?.key !== "")
+                    ?.map((option, index) => (
+                      <td
+                        key={index}
+                        className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                      >
+                        {item[option.key]}
+                      </td>
+                    ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     );
   },
@@ -246,16 +254,57 @@ export let renderers = {
       bgColor,
       textColor,
       textSize,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
+      regex,
+      messageRegex,
       // status,
     } = InputData();
-    useEffect(() => {}, [label]);
+    console.log(messageRegex, "red");
+    // console.log(textColor)
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require, regex, messageRegex]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+      const regPattern = regex.slice(1, -1);
+      const re = new RegExp(regPattern);
+
+      if (re.test(e.target.value)) {
+      } else {
+        Swal.fire({
+          icon: "warning",
+          text: `${messageRegex}`,
+        });
+      }
+    };
+
     return (
-      <div>
+      <div className={`${hidden === true ? "hidden" : ""}`}>
         <label
           for="input"
           name="input"
           type="text"
-          className={`block mb-2  text-gray-900 dark:text-white`}
+          className={`block mb-2   text-gray-900 dark:text-white`}
           style={{ fontSize: `${textSize}px` }}
         >
           {label?.length === 0 ? "ورودی" : label}
@@ -263,18 +312,42 @@ export let renderers = {
         <input
           type="textField"
           name="input"
-          className={` border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400   dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-          required
+          className={` ${bgColor} ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+          required={require}
           placeholder={placeHolder}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
-          // disabled={status}
+          minLength={minLength}
+          onChange={controlInput}
+          maxLength={maxLength}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />{" "}
         <p
           className={`  mx-1 my-2 px-1  rounded-md`}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          // style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
         >
           {description}
         </p>
+        <span
+          className={`block my-2 ${
+            messageMinLength === true ? "" : "hidden"
+          } text-danger`}
+        >
+          حداقل کاراکتر {minLength} میباشد
+        </span>
+        <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
+          {label} الزامی است
+        </span>
       </div>
     );
   },

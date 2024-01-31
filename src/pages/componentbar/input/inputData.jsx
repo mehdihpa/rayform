@@ -82,5 +82,68 @@ export const InputData = () => {
             ?.filter((item) => item?.type === "input" && item?.uuid)
             .map((item) => item?.textSize)
         : filteredElement?.textSize,
+    elementStatus:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.elementStatus)
+        : filteredElement?.elementStatus,
+    minLength:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.minLength)
+        : filteredElement?.minLength,
+    maxLength:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.maxLength)
+        : filteredElement?.maxLength,
+    require:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.require)
+        : filteredElement?.require,
+    hidden:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.hidden)
+        : filteredElement?.hidden,
+    regex:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.regex)
+        : filteredElement?.regex,
+    messageRegex:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "input")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "input" && item?.uuid)
+            .map((item) => item?.messageRegex)
+        : filteredElement?.messageRegex,
   };
 };

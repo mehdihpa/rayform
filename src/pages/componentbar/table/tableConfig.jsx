@@ -10,7 +10,12 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import { Add, HdrPlus, PlusOne } from "@mui/icons-material";
+import {
+  Add,
+  ContactlessOutlined,
+  HdrPlus,
+  PlusOne,
+} from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export const TableConfig = () => {
@@ -50,22 +55,23 @@ export const TableConfig = () => {
       setNewNameOption("");
     }
   };
-  const handleRemoveKeyOption = () => {
-    const updatedOptions = dropdownKeyOptions.filter(
-      (option) => option.key !== newKeyOption
-    );
 
-    setDropdownKeyOptions(updatedOptions);
-    handleRemoveNameOption();
-  };
-
-  const handleRemoveNameOption = (nameToRemove) => {
-    const updatedOptions = dropdownNameOptions.filter(
+  const handleRemoveNameOption = () => {
+    const updatedNameOptions = dropdownNameOptions.filter(
       (option) => option.name !== newNameOption
     );
 
-    setDropdownNameOptions(updatedOptions);
+    setDropdownNameOptions(updatedNameOptions);
+
+    // Remove the corresponding option from dropdownKeyOptions based on the name
+    const updatedKeyOptions = dropdownKeyOptions.filter(
+      (option) => option.name !== newNameOption
+    );
+
+    setDropdownKeyOptions(updatedKeyOptions);
   };
+
+  console.log(dropdownNameOptions, "name");
   const handleNameInputChange = (e) => {
     setNewNameOption(e.target.value);
   };
@@ -151,40 +157,52 @@ export const TableConfig = () => {
       className="flex flex-col gap-y-5"
       style={{ display: showDisplay === false ? "none" : "flex" }}
     >
-      <div>
-        <label
-          htmlFor="label"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
         >
-          ادرس سرویس
-        </label>
-        <input
-          type="text"
-          name="urlTable"
-          value={locationFormData.urlTable}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="برچسب را وارد کنید"
-          required
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <div>
-        <label
-          htmlFor="label"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          مسیر دیتا
-        </label>
-        <input
-          type="text"
-          name="mapPath"
-          value={locationFormData.mapPath}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="برچسب را وارد کنید"
-          required
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
+          تنظیمات سرویس
+        </AccordionSummary>
+        <AccordionDetails>
+          <div>
+            <label
+              htmlFor="label"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              ادرس سرویس
+            </label>
+            <input
+              type="text"
+              name="urlTable"
+              value={locationFormData.urlTable}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="ادرس سرویس را وارد کنید"
+              required
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="my-3">
+            <label
+              htmlFor="label"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              مسیر دیتا
+            </label>
+            <input
+              type="text"
+              name="mapPath"
+              value={locationFormData.mapPath}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="مسیر دیتا را وارد کنید"
+              required
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+        </AccordionDetails>
+      </Accordion>
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -195,23 +213,6 @@ export const TableConfig = () => {
         </AccordionSummary>
         <AccordionDetails>
           <div>
-            <label
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="dynamicDropdown"
-            >
-              لیست key
-            </label>
-            <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="dynamicDropdown"
-            >
-              {dropdownKeyOptions.map((option, index) => (
-                <option key={index} value={option.key}>
-                  {option.key}
-                </option>
-              ))}
-            </select>
-
             <div className="my-3">
               <label
                 className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -229,36 +230,19 @@ export const TableConfig = () => {
               />
             </div>
             <div>
-              <label
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                htmlFor="dynamicDropdown"
-              >
-                لیست name
-              </label>
-              <select
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                id="dynamicDropdown"
-              >
-                {dropdownNameOptions.map((option, index) => (
-                  <option key={index} value={option.name}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-
               <div className="my-3">
                 <label
                   className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   htmlFor="newNameOption"
                 >
-                  name{" "}
+                  عنوان{" "}
                 </label>
                 <input
                   type="text"
                   id="newNameOption"
                   value={newNameOption}
                   onChange={handleNameInputChange}
-                  placeholder="name را وارد کنید"
+                  placeholder="عنوان را وارد کنید"
                   className=" my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
@@ -280,7 +264,7 @@ export const TableConfig = () => {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          حذف از لیست
+          مشاهده لیست
         </AccordionSummary>
         <AccordionDetails>
           <div>
@@ -293,7 +277,6 @@ export const TableConfig = () => {
             <select
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               id="dynamicDropdown"
-              onChange={(e) => setNewKeyOption(e.target.value)}
             >
               {dropdownKeyOptions.map((option, index) => (
                 <option key={index} value={option.key}>
@@ -307,7 +290,38 @@ export const TableConfig = () => {
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 htmlFor="dynamicDropdown"
               >
-                لیست name
+                لیست عناوین
+              </label>
+              <select
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                id="dynamicDropdown"
+              >
+                {dropdownNameOptions.map((option, index) => (
+                  <option key={index} value={option.name}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          حذف از لیست
+        </AccordionSummary>
+        <AccordionDetails>
+          <div>
+            <div className="my-3">
+              <label
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                htmlFor="dynamicDropdown"
+              >
+                لیست عناوین
               </label>
               <select
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -324,7 +338,7 @@ export const TableConfig = () => {
             <div className="flex flex-row justify-end">
               <button
                 className=" text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-400 font-medium rounded-lg text-sm px-9 py-1.5 me-2 mb-2"
-                onClick={handleRemoveKeyOption}
+                onClick={handleRemoveNameOption}
               >
                 <Add /> حذف کردن
               </button>

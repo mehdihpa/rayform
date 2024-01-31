@@ -29,6 +29,13 @@ const genericElementConfigReducer = (state = initialState, action) => {
         urlTable,
         dataTable,
         dropdownData,
+        elementStatus,
+        minLength,
+        maxLength,
+        require,
+        hidden,
+        regex,
+        messageRegex,
       } = action.data;
 
       // Filter out empty objects from the existing elements
@@ -60,6 +67,13 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   urlTable: urlTable,
                   dataTable: dataTable,
                   dropdownData: dropdownData,
+                  elementStatus: elementStatus,
+                  minLength: minLength,
+                  maxLength: maxLength,
+                  require: require,
+                  hidden: hidden,
+                  regex: regex,
+                  messageRegex: messageRegex,
                 }
               : el
           ),
@@ -83,6 +97,13 @@ const genericElementConfigReducer = (state = initialState, action) => {
               urlTable,
               dataTable,
               dropdownData,
+              elementStatus,
+              minLength,
+              maxLength,
+              require,
+              hidden,
+              regex,
+              messageRegex,
             },
           ],
         };

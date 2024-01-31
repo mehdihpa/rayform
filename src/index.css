@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: real;
-  src: url("../src/assets/font/IRANSansX-Medium.ttf");
+  src: url("../src/assets//fonts//yekan-bakh-fanum-regular.47fb310a.woff");
 }
 body {
   font-family: real;
@@ -12,7 +12,7 @@ body {
 }
 
 .app {
-  font-family: sans-serif;
+  font-family: real;
   display: flex;
   flex: 1;
   overflow: hidden;
@@ -45,12 +45,11 @@ body {
 .canvas {
   flex: 1;
   border: 2px solid #f0eeeedc;
-  margin: 13px 18px;
+  margin: 16px 15px;
   border-radius: 6px;
-  padding: 10px;
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 700px;
   overflow: scroll !important;
 }
 .overlay {

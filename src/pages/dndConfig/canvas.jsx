@@ -145,6 +145,13 @@ function SortableField(props) {
                       textColor: dataInput?.textColor,
                       textSize: dataInput?.textSize,
                       type: elementType,
+                      elementStatus: elementStatus,
+                      minLength: minLength,
+                      maxLength: maxLength,
+                      require: require,
+                      hidden: hidden,
+                      regex: regex,
+                      messageRegex: messageRegex,
                     })
                   )
                 : field?.type === "passWord"
