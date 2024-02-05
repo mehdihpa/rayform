@@ -12,6 +12,7 @@ import EditForm from "../formManagement/editForm";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useNavigate } from "react-router-dom";
+import { Form } from "samin-form-render";
 import { formLabelToDraw, updateFormList } from "../../redux/action";
 const HomePage = ({ action }) => {
   const [forms, setForms] = useState([]);
@@ -187,6 +188,7 @@ const HomePage = ({ action }) => {
       <div className="p-4">
         <hr className="bg-slate-100 h-1" />
       </div>
+     
       <div className="mx-3">
         {" "}
         {edit === true ? (
@@ -199,9 +201,11 @@ const HomePage = ({ action }) => {
           <AddForm />
         )}
       </div>
+
       <div className="p-4">
         <hr className="bg-slate-100 h-1" />
       </div>
+
       <div className="mr-4 mt-4">
         <div className="flex flex-row items-center justify-between ">
           <div className="flex flex-row items-center mx-[9px]">
@@ -217,6 +221,7 @@ const HomePage = ({ action }) => {
               </h1>
             </div>
           </div>
+
           {/* <div>
             <Tooltip title="مشاهده همه فرم ها">
               <IconButton aria-label="delete">

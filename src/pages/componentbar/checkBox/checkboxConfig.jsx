@@ -3,8 +3,15 @@ import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { checkBoxConfig, numberConfig, showEdit } from "../../../redux/action";
 import { useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import {
+  Button,
+  AccordionDetails,
+  Accordion,
+  AccordionSummary,
+} from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FormatPaintIcon from "@mui/icons-material/FormatPaint";
 export const CheckBoxConfig = () => {
   const dispatchConfgi = useDispatch();
   const elementId = useSelector((state) => state?.typeElementReducer?.type?.id);
@@ -13,16 +20,17 @@ export const CheckBoxConfig = () => {
   );
   const showDisplay = useSelector((state) => state?.showEditReducer?.display);
   const dispatchDisplay = useDispatch();
-
+  const [checkDivHidden, setCheckDivHidden] = useState(false);
   const [locationFormData, setLocationFormData] = useState({
     label: "",
     placeHolder: "",
     description: "",
-    bgColor: "",
+    styleInjection: "",
     textColor: "",
     textSize: "",
-    // status: true, // Assuming status is a string
     type: elementType,
+    elementStatus: "",
+    hidden: checkDivHidden,
   });
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
@@ -37,11 +45,12 @@ export const CheckBoxConfig = () => {
         label: selectedElement?.label || "",
         placeHolder: selectedElement?.placeHolder || "",
         description: selectedElement?.description || "",
-        bgColor: selectedElement?.bgColor || "",
+        styleInjection: selectedElement?.styleInjection || "",
         textColor: selectedElement?.textColor || "",
-        // status: selectedElement?.status || true, // Update this according to your data structure
         type: elementType,
-        textSize: locationFormData.textSize || "",
+        elementStatus: selectedElement.elementStatus || "",
+        hidden: checkDivHidden,
+        textSize: selectedElement.textSize || "",
       });
     }
   }, [json.element, elementId]);
@@ -59,11 +68,12 @@ export const CheckBoxConfig = () => {
       label: locationFormData.label,
       placeHolder: locationFormData.placeHolder,
       description: locationFormData.description,
-      bgColor: locationFormData.bgColor,
+      styleInjection: locationFormData.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
       textSize: locationFormData.textSize,
-      // status: true, // Update this according to your data structure
+      hidden: checkDivHidden,
+      elementStatus: locationFormData.elementStatus,
     };
     dispatchDisplay(showEdit(false));
 
@@ -92,86 +102,91 @@ export const CheckBoxConfig = () => {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <div>
-        <label
-          htmlFor="textColor"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          رنگ متن
-        </label>
-        <input
-          type="text"
-          name="textColor"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="رنگ متن را وارد کنید"
-          required
-          onChange={(e) => handleChange(e)}
-          value={locationFormData.textColor}
-        />
-      </div>
-      <div>
-        <label
-          for="bordered-radio-1"
-          className="w-full  py-4  text-sm font-medium text-gray-900 dark:text-gray-300"
-        >
-          سایز متن{" "}
-        </label>
-        <div className="flex items-center mt-2 justify-evenly ps-4 border border-gray-200 rounded dark:border-gray-700">
-          <label
-            for="bordered-radio-1"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            <input
-              name="textSize"
-              type="radio"
-              checked={locationFormData.textSize === 15}
-              onChange={() =>
-                handleChange({ target: { name: "textSize", value: 15 } })
-              }
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />{" "}
-            کوچک
-          </label>
 
-          <label
-            for="bordered-radio-2"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <FormatPaintIcon />{" "}
+          <div className="py-1">
+            <span>تنظیمات استایل</span>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div>
+            <label
+              htmlFor="styleInjection"
+              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              کلاس css
+            </label>
             <input
+              type="text"
+              name="styleInjection"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="مثال : bg-primary bg-red-500 hidden"
+              required
+              onChange={(e) => handleChange(e)}
+              value={locationFormData.styleInjection}
+            />
+          </div>
+          <div>
+            <label className="w-full  pt-3   text-sm font-medium text-gray-900 dark:text-gray-300">
+              وضعیت{" "}
+            </label>
+            <select
+              id="elementStatus"
+              name="elementStatus"
+              onChange={(e) => handleChange(e)}
+              className="form-select mt-2"
+            >
+              <option value="true">فعال</option>
+              <option value="false">غیر فعال</option>
+            </select>
+          </div>
+          <div>
+            <label className="w-full  pt-3   text-sm font-medium text-gray-900 dark:text-gray-300">
+              سایز متن برچسب{" "}
+            </label>
+            <select
+              id="textSize"
               name="textSize"
-              onChange={() =>
-                handleChange({ target: { name: "textSize", value: 25 } })
-              }
-              type="radio"
-              checked={locationFormData.textSize === 25}
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />{" "}
-            متوسط
-          </label>
-          <label
-            for="bordered-radio-2"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+              onChange={(e) => handleChange(e)}
+              className="form-select mt-2"
+            >
+              <option value="15">کوچک</option>
+              <option value="25"> متوسط</option>
+              <option value="35"> بزرگ</option>
+            </select>
+          </div>
+          <div className="flex items-start -mb-4 mt-4 pb-3">
             <input
-              name="textSize"
-              onChange={() =>
-                handleChange({ target: { name: "textSize", value: 35 } })
+              type="checkbox"
+              name="hidden"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              onChange={(e) =>
+                e.target.checked
+                  ? setCheckDivHidden(true)
+                  : setCheckDivHidden(false)
               }
-              type="radio"
-              checked={locationFormData.textSize === 35}
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />{" "}
-            بزرگ
-          </label>
-        </div>
-      </div>
+            />
+            <label
+              for="default-checkbox"
+              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              المنت قابل مشاهده نباشد
+            </label>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+
       <Button
         onClick={handleDispatch}
         variant="contained"
         startIcon={<AppRegistrationIcon />}
+        ل
       >
         ثبت تغییرات
       </Button>

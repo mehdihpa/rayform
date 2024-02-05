@@ -38,15 +38,15 @@ export const CheckBoxData = () => {
             ?.filter((item) => item?.type === "checkBox" && item?.uuid)
             .map((item) => item?.description)
         : filteredElement?.description,
-    bgColor:
+    styleInjection:
       elementId !=
       json?.element
         .filter((item) => item?.type === "checkBox")
         .map((item) => item?.uuid)
         ? json?.element
             ?.filter((item) => item?.type === "checkBox" && item?.uuid)
-            .map((item) => item?.bgColor)
-        : filteredElement?.bgColor,
+            .map((item) => item?.styleInjection)
+        : filteredElement?.styleInjection,
     id:
       elementId !=
       json?.element
@@ -83,5 +83,23 @@ export const CheckBoxData = () => {
             ?.filter((item) => item?.type === "checkBox" && item?.uuid)
             .map((item) => item?.textSize)
         : filteredElement?.textSize,
+    elementStatus:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "checkBox")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "checkBox" && item?.uuid)
+            .map((item) => item?.elementStatus)
+        : filteredElement?.elementStatus,
+    hidden:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "checkBox")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "checkBox" && item?.uuid)
+            .map((item) => item?.hidden)
+        : filteredElement?.hidden,
   };
 };

@@ -15,6 +15,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
     case "dropdownConfig":
     case "radioConfig":
     case "tableConfig":
+    case "buttonConfig":
     case "textAreaConfig":
       const {
         uuid,
@@ -22,7 +23,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
         type,
         description,
         placeHolder,
-        bgColor,
+        styleInjection,
         textColor,
         textSize,
         mapPath,
@@ -59,7 +60,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   label: label,
                   description: description,
                   placeHolder: placeHolder,
-                  bgColor: bgColor,
+                  styleInjection,
                   textColor: textColor,
                   textSize: textSize,
                   type: type,
@@ -90,7 +91,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
               type,
               description,
               placeHolder,
-              bgColor,
+              styleInjection,
               textColor,
               textSize,
               mapPath,

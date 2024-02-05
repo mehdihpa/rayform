@@ -37,15 +37,15 @@ export const TableData = () => {
             ?.filter((item) => item?.type === "table" && item?.uuid)
             .map((item) => item?.description)
         : filteredElement?.description,
-    bgColor:
+    styleInjection:
       elementId !=
       json?.element
         .filter((item) => item?.type === "table")
         .map((item) => item?.uuid)
         ? json?.element
             ?.filter((item) => item?.type === "table" && item?.uuid)
-            .map((item) => item?.bgColor)
-        : filteredElement?.bgColor,
+            .map((item) => item?.styleInjection)
+        : filteredElement?.styleInjection,
     id:
       elementId !=
       json?.element

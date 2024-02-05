@@ -38,15 +38,15 @@ export const NumberData = () => {
             ?.filter((item) => item?.type === "number" && item?.uuid)
             .map((item) => item?.description)
         : filteredElement?.description,
-    bgColor:
+    styleInjection:
       elementId !=
       json?.element
         .filter((item) => item?.type === "number")
         .map((item) => item?.uuid)
         ? json?.element
             ?.filter((item) => item?.type === "number" && item?.uuid)
-            .map((item) => item?.bgColor)
-        : filteredElement?.bgColor,
+            .map((item) => item?.styleInjection)
+        : filteredElement?.styleInjection,
     id:
       elementId !=
       json?.element
@@ -83,5 +83,50 @@ export const NumberData = () => {
             ?.filter((item) => item?.type === "number" && item?.uuid)
             .map((item) => item?.textSize)
         : filteredElement?.textSize,
+    elementStatus:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "number")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "number" && item?.uuid)
+            .map((item) => item?.elementStatus)
+        : filteredElement?.elementStatus,
+    minLength:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "number")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "number" && item?.uuid)
+            .map((item) => item?.minLength)
+        : filteredElement?.minLength,
+    maxLength:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "number")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "number" && item?.uuid)
+            .map((item) => item?.maxLength)
+        : filteredElement?.maxLength,
+    require:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "number")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "number" && item?.uuid)
+            .map((item) => item?.require)
+        : filteredElement?.require,
+    hidden:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "number")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "number" && item?.uuid)
+            .map((item) => item?.hidden)
+        : filteredElement?.hidden,
   };
 };

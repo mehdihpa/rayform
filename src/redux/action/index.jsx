@@ -70,6 +70,12 @@ export const linkConfig = (element) => {
     data: element,
   };
 };
+export const buttonConfig = (element) => {
+  return {
+    type: "buttonConfig",
+    data: element,
+  };
+};
 export const dateConfig = (element) => {
   return {
     type: "dateConfig",

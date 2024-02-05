@@ -38,15 +38,15 @@ export const DropDownData = () => {
             ?.filter((item) => item?.type === "dropDown" && item?.uuid)
             .map((item) => item?.description)
         : filteredElement?.description,
-    bgColor:
+    styleInjection:
       elementId !=
       json?.element
         .filter((item) => item?.type === "dropDown")
         .map((item) => item?.uuid)
         ? json?.element
             ?.filter((item) => item?.type === "dropDown" && item?.uuid)
-            .map((item) => item?.bgColor)
-        : filteredElement?.bgColor,
+            .map((item) => item?.styleInjection)
+        : filteredElement?.styleInjection,
     id:
       elementId !=
       json?.element
@@ -92,5 +92,33 @@ export const DropDownData = () => {
             ?.filter((item) => item?.type === "dropDown" && item?.uuid)
             .map((item) => item?.dropdownData)
         : filteredElement?.dropdownData,
+    elementStatus:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "dropDown")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "dropDown" && item?.uuid)
+            .map((item) => item?.elementStatus)
+        : filteredElement?.elementStatus,
+
+    require:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "dropDown")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "dropDown" && item?.uuid)
+            .map((item) => item?.require)
+        : filteredElement?.require,
+    hidden:
+      elementId !=
+      json?.element
+        .filter((item) => item?.type === "dropDown")
+        .map((item) => item?.uuid)
+        ? json?.element
+            ?.filter((item) => item?.type === "dropDown" && item?.uuid)
+            .map((item) => item?.hidden)
+        : filteredElement?.hidden,
   };
 };

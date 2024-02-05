@@ -13,13 +13,11 @@ import Sidebar, { SidebarField } from "../dndConfig/sidebar";
 import PrimaryNavbar from "../../components/Navbar/PrimaryNavbar";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { FormControl, MenuItem, Select, Tooltip } from "@mui/material";
 import { InputConfig } from "../componentbar/input/inputConfig";
 import { PasswordConfig } from "../componentbar/passWord/passwordConfig";
 import { NumberConfig } from "../componentbar/number/numberConfig";
 import { TextareaConfig } from "../componentbar/textarea/textareaConfig";
 import { CheckBoxConfig } from "../componentbar/checkBox/checkboxConfig";
-import { typeElelment } from "../../redux/action";
 import { RadioConfig } from "../componentbar/radioButton/radionConfig";
 import { EmailConfig } from "../componentbar/email/emailConfig";
 import { MobileConfig } from "../componentbar/mobilenumber/mobileConfig";
@@ -27,6 +25,8 @@ import { LinkConfig } from "../componentbar/link/linkConfig";
 import { DateConfig } from "../componentbar/datePicker/dateConfig";
 import { DDConfig } from "../componentbar/dropdown/dropDownConfig";
 import { TableConfig } from "../componentbar/table/tableConfig";
+import { ButtonConfig } from "../componentbar/button/buttonConfig";
+import { Form } from "samin-form-render";
 
 function getData(prop) {
   return prop?.data?.current ?? {};
@@ -200,7 +200,6 @@ export default function FormDrawer() {
   let elementType = useSelector(
     (state) => state?.typeElementReducer?.type?.type
   );
-  let resetElementType = useDispatch();
 
   return (
     <div>
@@ -282,6 +281,8 @@ export default function FormDrawer() {
                     <DDConfig />
                   ) : elementType === "table" ? (
                     <TableConfig />
+                  ) : elementType === "button" ? (
+                    <ButtonConfig />
                   ) : (
                     ""
                   )}
@@ -297,15 +298,31 @@ export default function FormDrawer() {
           </DndContext>
         </div>
       </div>
-      <div className="mx-3 my-6 ">
-        <span className="text-slate-500 font-bold mx-1.5">ساختار Json</span>
+      <div className="flex">
+        <div className="mx-3 my-6 w-25 ">
+          <span className="text-slate-500 font-bold mx-1.5">ساختار Json</span>
 
-        <div
-          style={{ direction: "ltr" }}
-          className="flex flex-col gap-y- mt-2  border border-amber-100 rounded-md  p-3"
-        >
-          <div className="mt-2 ">
-            {<pre>{JSON?.stringify(json, null, 5)}</pre>}
+          <div
+            style={{ direction: "ltr" }}
+            className="flex flex-col gap-y- mt-2  border border-amber-100 rounded-md  p-3"
+          >
+            <div className="mt-2 ">
+              {<pre>{JSON?.stringify(json, null, 5)}</pre>}
+            </div>
+          </div>
+        </div>
+        <div className="mx-3 my-6 w-75 ">
+          <span className="text-slate-500 font-bold mx-1.5">
+            ساختار Package
+          </span>
+
+          <div
+            style={{ direction: "ltr" }}
+            className="flex flex-col gap-y- mt-2  border border-amber-100 rounded-md  p-3"
+          >
+            <div className="mt-2 ">
+              <Form fields={json?.element} />{" "}
+            </div>
           </div>
         </div>
       </div>

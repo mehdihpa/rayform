@@ -23,6 +23,7 @@ import {
   setIdElement,
   dropdownConfig,
   tableConfig,
+  buttonConfig,
 } from "../../redux/action";
 import { useEffect, useState } from "react";
 
@@ -131,7 +132,9 @@ function SortableField(props) {
             let tableData = json.element.find(
               (item) => item?.uuid === field?.id
             );
-
+            let buttonData = json.element.find(
+              (item) => item?.uuid === field?.id
+            );
             {
               field?.type === "input"
                 ? dispatchConfgi(
@@ -141,17 +144,17 @@ function SortableField(props) {
                       placeHolder: dataInput?.placeHolder,
                       description: dataInput?.description,
                       // status: dataInput?.status,
-                      bgColor: dataInput?.bgColor,
+                      styleInjection: dataInput?.styleInjection,
                       textColor: dataInput?.textColor,
                       textSize: dataInput?.textSize,
                       type: elementType,
-                      elementStatus: elementStatus,
-                      minLength: minLength,
-                      maxLength: maxLength,
-                      require: require,
-                      hidden: hidden,
-                      regex: regex,
-                      messageRegex: messageRegex,
+                      elementStatus: dataInput?.elementStatus,
+                      minLength: dataInput?.minLength,
+                      maxLength: dataInput?.maxLength,
+                      require: dataInput?.require,
+                      hidden: dataInput?.hidden,
+                      regex: dataInput?.regex,
+                      messageRegex: dataInput?.messageRegex,
                     })
                   )
                 : field?.type === "passWord"
@@ -162,10 +165,15 @@ function SortableField(props) {
                       placeHolder: dataPassword?.placeHolder,
                       description: dataPassword?.description,
                       // status: dataInput?.status,
-                      bgColor: dataPassword?.bgColor,
+                      styleInjection: dataPassword?.styleInjection,
                       textColor: dataPassword?.textColor,
                       textSize: dataPassword?.textSize,
                       type: elementType,
+                      elementStatus: dataPassword?.elementStatus,
+                      minLength: dataPassword?.minLength,
+                      maxLength: dataPassword?.maxLength,
+                      require: dataPassword?.require,
+                      hidden: dataPassword?.hidden,
                     })
                   )
                 : field?.type === "number"
@@ -176,10 +184,16 @@ function SortableField(props) {
                       placeHolder: dataNumber?.placeHolder,
                       description: dataNumber?.description,
                       // status: dataInput?.status,
-                      bgColor: dataNumber?.bgColor,
+                      styleInjection: dataNumber?.styleInjection,
+
                       textColor: dataNumber?.textColor,
                       textSize: dataNumber?.textSize,
                       type: elementType,
+                      elementStatus: dataNumber?.elementStatus,
+                      minLength: dataNumber?.minLength,
+                      maxLength: dataNumber?.maxLength,
+                      require: dataNumber?.require,
+                      hidden: dataNumber?.hidden,
                     })
                   )
                 : field?.type === "textarea"
@@ -189,11 +203,16 @@ function SortableField(props) {
                       label: dataTextArea?.label,
                       placeHolder: dataTextArea?.placeHolder,
                       description: dataTextArea?.description,
-                      // status: dataInput?.status,
-                      bgColor: dataTextArea?.bgColor,
+                      styleInjection: dataTextArea?.styleInjection,
+
                       textColor: dataTextArea?.textColor,
                       textSize: dataTextArea?.textSize,
                       type: elementType,
+                      elementStatus: dataTextArea?.elementStatus,
+                      minLength: dataTextArea?.minLength,
+                      maxLength: dataTextArea?.maxLength,
+                      require: dataTextArea?.require,
+                      hidden: dataTextArea?.hidden,
                     })
                   )
                 : field?.type === "checkBox"
@@ -204,10 +223,13 @@ function SortableField(props) {
                       placeHolder: checkBox?.placeHolder,
                       description: checkBox?.description,
                       // status: dataInput?.status,
-                      bgColor: checkBox?.bgColor,
+                      styleInjection: checkBox?.styleInjection,
+
                       textColor: checkBox?.textColor,
                       textSize: checkBox?.textSize,
                       type: elementType,
+                      hidden: checkBox?.hidden,
+                      elementStatus: checkBox?.elementStatus,
                     })
                   )
                 : field?.type === "radioButton"
@@ -218,10 +240,13 @@ function SortableField(props) {
                       placeHolder: radio?.placeHolder,
                       description: radio?.description,
                       // status: dataInput?.status,
-                      bgColor: radio?.bgColor,
+                      styleInjection: radio?.styleInjection,
+
                       textColor: radio?.textColor,
                       textSize: radio?.textSize,
                       type: elementType,
+                      hidden: checkBox?.hidden,
+                      elementStatus: checkBox?.elementStatus,
                     })
                   )
                 : field?.type === "email"
@@ -232,10 +257,15 @@ function SortableField(props) {
                       placeHolder: email?.placeHolder,
                       description: email?.description,
                       // status: dataInput?.status,
-                      bgColor: email?.bgColor,
+                      styleInjection: email?.styleInjection,
                       textColor: email?.textColor,
                       textSize: email?.textSize,
                       type: elementType,
+                      elementStatus: email?.elementStatus,
+                      minLength: email?.minLength,
+                      maxLength: email?.maxLength,
+                      require: email?.require,
+                      hidden: email?.hidden,
                     })
                   )
                 : field?.type === "phoneNumber"
@@ -244,12 +274,16 @@ function SortableField(props) {
                       uuid: field?.id,
                       label: mobile?.label,
                       placeHolder: mobile?.placeHolder,
-                      description: mobile?.description,
-                      // status: dataInput?.status,
-                      bgColor: mobile?.bgColor,
+                      styleInjection: mobile?.styleInjection,
+
                       textColor: mobile?.textColor,
                       textSize: mobile?.textSize,
                       type: elementType,
+                      elementStatus: dataNumber?.elementStatus,
+                      minLength: dataNumber?.minLength,
+                      maxLength: dataNumber?.maxLength,
+                      require: dataNumber?.require,
+                      hidden: dataNumber?.hidden,
                     })
                   )
                 : field?.type === "url"
@@ -260,10 +294,15 @@ function SortableField(props) {
                       placeHolder: link?.placeHolder,
                       description: link?.description,
                       // status: dataInput?.status,
-                      bgColor: link?.bgColor,
+                      styleInjection: link?.styleInjection,
                       textColor: link?.textColor,
                       textSize: link?.textSize,
                       type: elementType,
+                      elementStatus: link?.elementStatus,
+                      minLength: link?.minLength,
+                      maxLength: link?.maxLength,
+                      require: link?.require,
+                      hidden: link?.hidden,
                     })
                   )
                 : field?.type === "day"
@@ -271,13 +310,13 @@ function SortableField(props) {
                     dateConfig({
                       uuid: field?.id,
                       label: date?.label,
-                      placeHolder: date?.placeHolder,
-                      description: date?.description,
-                      // status: dataInput?.status,
-                      bgColor: date?.bgColor,
+                      styleInjection: link?.styleInjection,
                       textColor: date?.textColor,
                       textSize: date?.textSize,
                       type: elementType,
+                      elementStatus: date?.elementStatus,
+                      require: date?.require,
+                      hidden: date?.hidden,
                     })
                   )
                 : field?.type === "dropDown"
@@ -288,10 +327,13 @@ function SortableField(props) {
                       placeHolder: dropDown?.placeHolder,
                       description: dropDown?.description,
                       // status: dataInput?.status,
-                      bgColor: dropDown?.bgColor,
+                      styleInjection: dropDown?.styleInjection,
                       textColor: dropDown?.textColor,
                       textSize: dropDown?.textSize,
                       type: elementType,
+                      elementStatus: dropDown?.elementStatus,
+                      require: dropDown?.require,
+                      hidden: dropDown?.hidden,
                     })
                   )
                 : field?.type === "table"
@@ -302,13 +344,26 @@ function SortableField(props) {
                       placeHolder: tableData?.placeHolder,
                       description: tableData?.description,
                       // status: dataInput?.status,
-                      bgColor: tableData?.bgColor,
+                      styleInjection: tableData?.styleInjection,
+
                       textColor: tableData?.textColor,
                       textSize: tableData?.textSize,
                       urlTable: tableData?.urlTable,
                       mapPath: tableData?.mapPath,
                       dataTable: tableData?.dataTable,
                       type: elementType,
+                    })
+                  )
+                : field?.type === "button"
+                ? dispatchConfgi(
+                    buttonConfig({
+                      uuid: field?.id,
+                      label: buttonData?.label,
+                      elementStatus: buttonData?.elementStatus,
+                      require: buttonData?.require,
+                      type: elementType,
+                      hidden: buttonData?.hidden,
+                      styleInjection: buttonData?.styleInjection,
                     })
                   )
                 : "";

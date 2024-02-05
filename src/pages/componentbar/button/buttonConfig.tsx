@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { v4 as uuid } from "uuid";
-import { emailConfig, showEdit } from "../../../redux/action";
+import { buttonConfig, showEdit } from "../../../redux/action";
 import { useSelector } from "react-redux";
 import {
   Button,
@@ -13,16 +12,16 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormatPaintIcon from "@mui/icons-material/FormatPaint";
 import DynamicFormIcon from "@mui/icons-material/DynamicForm";
-export const EmailConfig = () => {
+export const ButtonConfig = () => {
   const dispatchConfgi = useDispatch();
   const elementId = useSelector((state) => state?.typeElementReducer?.type?.id);
   const elementType = useSelector(
     (state) => state?.typeElementReducer?.type?.type
   );
+  const showDisplay = useSelector((state) => state?.showEditReducer?.display);
+  const dispatchDisplay = useDispatch();
   const [checkRequire, setCheckRequire] = useState(false);
   const [checkDivHidden, setCheckDivHidden] = useState(false);
-  const dispatchDisplay = useDispatch();
-  const showDisplay = useSelector((state) => state?.showEditReducer?.display);
   const [locationFormData, setLocationFormData] = useState({
     label: "",
     placeHolder: "",
@@ -52,6 +51,7 @@ export const EmailConfig = () => {
         description: selectedElement?.description || "",
         styleInjection: selectedElement?.styleInjection || "",
         textColor: selectedElement?.textColor || "",
+        type: elementType,
         elementStatus: selectedElement.elementStatus || "",
         minLength: selectedElement.minLength || "",
         maxLength: selectedElement.maxLength || "",
@@ -75,7 +75,7 @@ export const EmailConfig = () => {
       label: locationFormData.label,
       placeHolder: locationFormData.placeHolder,
       description: locationFormData.description,
-      styleInjection: locationFormData.styleInjection,
+      styleInjection: locationFormData?.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
       textSize: locationFormData.textSize,
@@ -86,7 +86,7 @@ export const EmailConfig = () => {
       hidden: checkDivHidden,
     };
 
-    dispatchConfgi(emailConfig(newElement));
+    dispatchConfgi(buttonConfig(newElement));
     dispatchDisplay(showEdit(false));
   };
   return (
@@ -112,41 +112,7 @@ export const EmailConfig = () => {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <div>
-        <label
-          for="placeHolder"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          متن پیش فرض
-        </label>
-        <input
-          type="text"
-          id="placeHolder"
-          name="placeHolder"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="متن پیش فرض را وارد کنید"
-          value={locationFormData.placeHolder}
-          required
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <div>
-        <label
-          for="description"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          توضیحات
-        </label>
-        <input
-          type="text"
-          name="description"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="توضیحات را وارد کنید"
-          required
-          value={locationFormData.description}
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -190,21 +156,7 @@ export const EmailConfig = () => {
               <option value="false">غیر فعال</option>
             </select>
           </div>
-          <div>
-            <label className="w-full  pt-3   text-sm font-medium text-gray-900 dark:text-gray-300">
-              سایز متن برچسب{" "}
-            </label>
-            <select
-              id="textSize"
-              name="textSize"
-              onChange={(e) => handleChange(e)}
-              className="form-select mt-2"
-            >
-              <option value="15">کوچک</option>
-              <option value="25"> متوسط</option>
-              <option value="35"> بزرگ</option>
-            </select>
-          </div>
+
           <div className="flex items-start -mb-4 mt-4 pb-3">
             <input
               type="checkbox"
@@ -225,87 +177,12 @@ export const EmailConfig = () => {
           </div>
         </AccordionDetails>
       </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
-          <DynamicFormIcon />{" "}
-          <div className="py-1 px-1">
-            <span>تنظیمات اعتبار سنجی</span>
-          </div>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>
-            <label
-              htmlFor="minLength"
-              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              حداقل کاراکتر
-            </label>
-            {/* <ColorPicker
-          type="text"
-          name="styleInjection"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="رنگ پس زمینه را وارد کنید"
-          required
-          onChange={(color) => handleColorChange(color)}
-          color={locationFormData.styleInjection}
-        /> */}
-            <input
-              type="text"
-              name="minLength"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="حداقل کاراکتر را وارد کنید"
-              required
-              onChange={(e) => handleChange(e)}
-              value={locationFormData.minLength}
-            />
-          </div>
-          <div className="my-3">
-            <label
-              htmlFor="maxLength"
-              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              حداکثر کاراکتر
-            </label>
-            <input
-              type="text"
-              name="maxLength"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="حداکثر کاراکتر را وارد کنید"
-              required
-              onChange={(e) => handleChange(e)}
-              value={locationFormData.maxLength}
-            />
-          </div>
-
-          <div className="flex items-start -mb-4 mt-4 pb-3">
-            <input
-              type="checkbox"
-              name="require"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onChange={(e) =>
-                e.target.checked
-                  ? setCheckRequire(true)
-                  : setCheckRequire(false)
-              }
-            />
-            <label
-              for="default-checkbox"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              الزامی میباشد
-            </label>
-          </div>
-        </AccordionDetails>
-      </Accordion>
 
       <Button
         onClick={handleDispatch}
         variant="contained"
         startIcon={<AppRegistrationIcon />}
+        ل
       >
         ثبت تغییرات
       </Button>

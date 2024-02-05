@@ -19,7 +19,10 @@ import { RadioData } from "../componentbar/radioButton/radioData";
 import { EmailData } from "../componentbar/email/emailData";
 import { MobileData } from "../componentbar/mobilenumber/mobileData";
 import { LinkData } from "../componentbar/link/linkData";
-import DatePicker from "react-datepicker";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import InputIcon from "react-multi-date-picker/components/input_icon";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Box from "@mui/material/Box";
@@ -35,13 +38,28 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { TableData } from "../componentbar/table/tableData";
 import { getFakeData } from "../../api/appApi";
 import DataTable from "react-data-table-component";
-import { Alert, OutlinedInput, TextField } from "@mui/material";
+import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import {
+  Alert,
+  Button,
+  ButtonBase,
+  IconButton,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import Swal from "sweetalert2";
+import { ButtonData } from "../componentbar/button/buttonData";
 export let fields = [
   {
     type: "input",
     title: "ورودی",
     icon: <TextFieldsIcon />,
+    group: "base",
+  },
+  {
+    type: "button",
+    title: "دکمه",
+    icon: <FormatBoldIcon />,
     group: "base",
   },
   {
@@ -121,14 +139,6 @@ export let fields = [
 export let renderers = {
   table: () => {
     let {
-      label,
-      type,
-      id,
-      placeHolder,
-      description,
-      bgColor,
-      textColor,
-      textSize,
       urlTable,
       mapPath,
       dataTable,
@@ -193,41 +203,89 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
       dropdownData,
-      // status,
+      require,
+      hidden,
+      elementStatus,
     } = DropDownData();
-    console.log(dropdownData?.dropdownNameOptions, "dropdownData");
-
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
-          <InputLabel
-            id="demo-simple-select-label"
-            style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
-          >
-            {" "}
-            {label?.length === 0 ? "دراپ دان" : label}
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            input={<OutlinedInput label="Name" />}
-            style={{ backgroundColor: bgColor, color: textColor }}
-          >
-            {dropdownData?.dropdownNameOptions?.map((item) => (
-              <MenuItem
-                key={item?.name}
-                value={item?.key}
-                style={{ color: textColor }}
-              >
-                {item?.name}
-              </MenuItem>
-            ))}
-          </Select>
-          {/* <TextField
+      <div className={`mb-6 ${hidden === true ? "hidden" : ""}`}>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel
+              id="demo-simple-select-label"
+              style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
+            >
+              {require === true
+                ? label?.length === 0
+                  ? "دراپ دان *"
+                  : label + " *"
+                : label?.length === 0
+                ? " دراپ دان"
+                : label}
+            </InputLabel>
+            <Select
+              className={` ${styleInjection} ${
+                elementStatus === "false"
+                  ? "bg-slate-200"
+                  : elementStatus === "true" ||
+                    elementStatus === "" ||
+                    undefined
+                  ? ""
+                  : ""
+              }‍‍`}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              input={<OutlinedInput label="Name" />}
+              style={{ backgroundColor: styleInjection, color: textColor }}
+              required={require}
+              onChange={controlInput}
+              disabled={
+                elementStatus === "false"
+                  ? true
+                  : elementStatus === "true" ||
+                    elementStatus === "" ||
+                    undefined
+                  ? false
+                  : false
+              }
+            >
+              {dropdownData?.dropdownNameOptions?.map((item) => (
+                <MenuItem
+                  key={item?.name}
+                  value={item?.key}
+                  style={{ color: textColor }}
+                >
+                  {item?.name}
+                </MenuItem>
+              ))}
+            </Select>
+            {/* <TextField
             label="گزینه جدید"
             value={newItem}
             onChange={handleNewItemChange}
@@ -240,8 +298,14 @@ export let renderers = {
           >
             ایجاد گزینه جدید{" "}
           </button> */}
-        </FormControl>
-      </Box>
+          </FormControl>
+          <span
+            className={`${showRequire === true ? "" : "hidden"} text-danger`}
+          >
+            {label} الزامی است
+          </span>
+        </Box>
+      </div>
     );
   },
   input: () => {
@@ -251,7 +315,7 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
       elementStatus,
@@ -307,12 +371,18 @@ export let renderers = {
           className={`block mb-2   text-gray-900 dark:text-white`}
           style={{ fontSize: `${textSize}px` }}
         >
-          {label?.length === 0 ? "ورودی" : label}
+          {require === true
+            ? label?.length === 0
+              ? "ورودی *"
+              : label + " *"
+            : label?.length === 0
+            ? "ورودی"
+            : label}
         </label>
         <input
           type="textField"
           name="input"
-          className={` ${bgColor} ${
+          className={` ${styleInjection} ${
             elementStatus === "false"
               ? "bg-slate-200"
               : elementStatus === "true" || elementStatus === "" || undefined
@@ -334,7 +404,7 @@ export let renderers = {
         />{" "}
         <p
           className={`  mx-1 my-2 px-1  rounded-md`}
-          // style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          // style={{ backgroundColor: `${styleInjection}`, color: `${textColor}` }}
         >
           {description}
         </p>
@@ -358,57 +428,119 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = TextAreaData();
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <div className="flex flex-col gap-y-5">
+      <div className={`${hidden === true ? "hidden" : ""}`}>
         <label
           for="message"
           className="block mb-2 text-sm  font-medium text-gray-900 dark:text-white"
           style={{ fontSize: `${textSize}px` }}
         >
-          {label?.length === 0 ? "باکس متن" : label}
+          {require === true
+            ? label?.length === 0
+              ? "باکس متن *"
+              : label + " *"
+            : label?.length === 0
+            ? "باکس متن "
+            : label}
         </label>
         <textarea
           id="message"
           rows="4"
-          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className={` ${styleInjection} ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+          required={require}
           placeholder={placeHolder}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          minLength={minLength}
+          onChange={controlInput}
+          maxLength={maxLength}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         ></textarea>
+        <span
+          className={`block my-2 ${
+            messageMinLength === true ? "" : "hidden"
+          } text-danger`}
+        >
+          حداقل کاراکتر {minLength} میباشد
+        </span>
+        <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
+          {label} الزامی است
+        </span>
       </div>
     );
   },
   checkBox: () => {
-    let {
-      label,
-      type,
-      id,
-      placeHolder,
-      description,
-      bgColor,
-      textColor,
-      textSize,
-      // status,
-    } = CheckBoxData();
+    let { label, styleInjection, textColor, textSize, elementStatus, hidden } =
+      CheckBoxData();
+
     return (
-      <div className="flex items-center mb-4">
+      <div className={`${hidden === true ? "hidden" : ""}`}>
         <input
           id="default-checkbox"
           type="checkbox"
           value=""
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          className={`  ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />
         <label
           for="default-checkbox"
-          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          className={`ms-2 ${styleInjection} text-sm font-medium text-gray-900 dark:text-gray-300`}
           style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
         >
-          {label?.length === 0 ? "چک باکس" : label}
+          {label?.length === 0 ? "چک باکس " : label}
         </label>
       </div>
     );
@@ -420,103 +552,255 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = NumberData();
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
+
     return (
-      <div>
+      <div className={`${hidden === true ? "hidden" : ""}`}>
         <label
           for="visitors"
-          className={`block mb-2`}
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           style={{ fontSize: `${textSize}px` }}
         >
-          {label?.length === 0 ? "عدد" : label}
+          {require === true
+            ? label?.length === 0
+              ? "عدد  *"
+              : label + " *"
+            : label?.length === 0
+            ? "عدد "
+            : label}
         </label>
         <input
           type="number"
           id="visitors"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className={` ${styleInjection} ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+          required={require}
           placeholder={placeHolder}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          minLength={minLength}
+          onChange={controlInput}
+          maxLength={maxLength}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />{" "}
-        <p
-          className={`  mx-1 my-2 px-1  rounded-md`}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+        <span
+          className={`block my-2 ${
+            messageMinLength === true ? "" : "hidden"
+          } text-danger`}
         >
-          {description}
-        </p>
+          حداقل کاراکتر {minLength} میباشد
+        </span>
+        <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
+          {label} الزامی است
+        </span>
       </div>
     );
   },
-  button: () => <button>دکمه</button>,
+  button: () => {
+    let { label, styleInjection, elementStatus, hidden, require } =
+      ButtonData();
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+
+    return (
+      <div className={`mb-6 ${hidden === true ? "hidden" : ""}`}>
+        <button
+          type="button"
+          className={`text-white w-full ${
+            elementStatus === "false"
+              ? "bg-secondary"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } ${styleInjection}  bg-blue-700  font-medium rounded-lg text-sm px-5 py-3 me-2 mb-2 `}
+          required={require}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
+        >
+          {require === true
+            ? label?.length === 0
+              ? "ثبت *"
+              : label + " *"
+            : label?.length === 0
+            ? "ثبت"
+            : label}{" "}
+        </button>
+      </div>
+    );
+  },
   passWord: () => {
     let {
       label,
-      type,
-      id,
+
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = PasswordData();
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <div className="mb-6">
+      <div className={`${hidden === true ? "hidden" : ""}`}>
         <label
           for="passWord"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           style={{ fontSize: `${textSize}px` }}
         >
-          {label?.length === 0 ? "رمز عبور" : label}
+          {require === true
+            ? label?.length === 0
+              ? "رمز عبور *"
+              : label + " *"
+            : label?.length === 0
+            ? "رمز عبور"
+            : label}
         </label>
         <input
           type="passWord"
           id="passWord"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          required
+          className={` ${styleInjection} ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+          required={require}
           placeholder={placeHolder}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          minLength={minLength}
+          onChange={controlInput}
+          maxLength={maxLength}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />
         <p
           className={`  mx-1 my-2 px-1  rounded-md`}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          // style={{ backgroundColor: `${styleInjection}`, color: `${textColor}` }}
         >
           {description}
         </p>
+        <span
+          className={`block my-2 ${
+            messageMinLength === true ? "" : "hidden"
+          } text-danger`}
+        >
+          حداقل کاراکتر {minLength} میباشد
+        </span>
+        <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
+          {label} الزامی است
+        </span>
       </div>
     );
   },
   radioButton: () => {
-    let {
-      label,
-      type,
-      id,
-      placeHolder,
-      description,
-      bgColor,
-      textColor,
-      textSize,
-      // status,
-    } = RadioData();
+    let { label, styleInjection, textColor, textSize, elementStatus, hidden } =
+      RadioData();
     return (
-      <div className="flex items-center mb-4">
+      <div className={`${hidden === true ? "hidden" : ""}`}>
         <input
           id="default-radio-1"
           type="radio"
           value=""
-          name="default-radio"
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          className={`  ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />
         <label
           for="default-checkbox"
-          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
+          className={`ms-2 ${styleInjection} text-sm font-medium `}
         >
-          {label?.length === 0 ? "رادیو باتن" : label}
+          {label?.length === 0 ? "رادیو باتن " : label}
         </label>
       </div>
     );
@@ -524,38 +808,97 @@ export let renderers = {
   email: () => {
     let {
       label,
-      type,
-      id,
+
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = EmailData();
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <div className="mb-6">
+      <div className={`mb-6 ${hidden === true ? "hidden" : ""}`}>
         <label
           for="email"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
         >
-          {label?.length === 0 ? " ایمیل" : label}
+          {require === true
+            ? label?.length === 0
+              ? "ایمیل  *"
+              : label + " *"
+            : label?.length === 0
+            ? "ایمیل "
+            : label}
         </label>
         <input
           type="email"
           id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          required
+          className={` ${styleInjection} ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+          required={require}
           placeholder={placeHolder}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          minLength={minLength}
+          onChange={controlInput}
+          maxLength={maxLength}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />
         <p
           className={`  mx-1 my-2 px-1  rounded-md`}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          style={{
+            backgroundColor: `${styleInjection}`,
+            color: `${textColor}`,
+          }}
         >
           {description}
         </p>
+        <span
+          className={`block my-2 ${
+            messageMinLength === true ? "" : "hidden"
+          } text-danger`}
+        >
+          حداقل کاراکتر {minLength} میباشد
+        </span>
+        <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
+          {label} الزامی است
+        </span>
       </div>
     );
   },
@@ -566,34 +909,91 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = LinkData();
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <div>
+      <div className={`mb-6 ${hidden === true ? "hidden" : ""}`}>
         <label
           for="website"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
         >
-          {label?.length === 0 ? " لینک" : label}
+          {require === true
+            ? label?.length === 0
+              ? "لینک *"
+              : label + " *"
+            : label?.length === 0
+            ? " لینک"
+            : label}
         </label>
         <input
           type="url"
           id="website"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className={` ${styleInjection} ${
+            elementStatus === "false"
+              ? "bg-slate-200"
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? ""
+              : ""
+          } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+          required={require}
           placeholder={placeHolder}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
-          required
+          minLength={minLength}
+          onChange={controlInput}
+          maxLength={maxLength}
+          disabled={
+            elementStatus === "false"
+              ? true
+              : elementStatus === "true" || elementStatus === "" || undefined
+              ? false
+              : false
+          }
         />
         <p
           className={`  mx-1 my-2 px-1  rounded-md`}
-          style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+          // style={{ backgroundColor: `${styleInjection}`, color: `${textColor}` }}
         >
           {description}
         </p>
+        <span
+          className={`block my-2 ${
+            messageMinLength === true ? "" : "hidden"
+          } text-danger`}
+        >
+          حداقل کاراکتر {minLength} میباشد
+        </span>
+        <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
+          {label} الزامی است
+        </span>
       </div>
     );
   },
@@ -604,21 +1004,51 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = MobileData();
-    console.log(label, "label");
-
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <form className=" mx-auto">
+      <form className={`mx-auto ${hidden === true ? "hidden" : ""}`}>
         <label
           for="phone-input"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
         >
-          {label?.length === 0 ? " شماره همراه" : label}
+          {require === true
+            ? label?.length === 0
+              ? "شماره همراه  *"
+              : label + " *"
+            : label?.length === 0
+            ? "شماره همراه "
+            : label}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
@@ -636,12 +1066,45 @@ export let renderers = {
             type="text"
             id="phone-input"
             aria-describedby="helper-text-explanation"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            required
+            className={` ${styleInjection} ${
+              elementStatus === "false"
+                ? "bg-slate-200"
+                : elementStatus === "true" || elementStatus === "" || undefined
+                ? ""
+                : ""
+            } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+            required={require}
             placeholder={placeHolder}
-            style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+            minLength={minLength}
+            onChange={controlInput}
+            maxLength={maxLength}
+            disabled={
+              elementStatus === "false"
+                ? true
+                : elementStatus === "true" || elementStatus === "" || undefined
+                ? false
+                : false
+            }
           />
+          <p
+            className={`  mx-1 my-2 px-1  rounded-md`}
+            // style={{ backgroundColor: `${styleInjection}`, color: `${textColor}` }}
+          >
+            {description}
+          </p>
+          <span
+            className={`block my-2 ${
+              messageMinLength === true ? "" : "hidden"
+            } text-danger`}
+          >
+            حداقل کاراکتر {minLength} میباشد
+          </span>
+          <span
+            className={`${showRequire === true ? "" : "hidden"} text-danger`}
+          >
+            {label} الزامی است
+          </span>
         </div>
       </form>
     );
@@ -677,14 +1140,39 @@ export let renderers = {
       id,
       placeHolder,
       description,
-      bgColor,
+      styleInjection,
       textColor,
       textSize,
-      // status,
+      elementStatus,
+      minLength,
+      maxLength,
+      require,
+      hidden,
     } = DatePickerData();
-    console.log(label, "label");
+    const [messageMinLength, setMessageMinLength] = useState(false);
+    const [showRequire, setShowRequire] = useState(false);
+    useEffect(() => {
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require]);
+    const controlInput = (e) => {
+      console.log();
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
     return (
-      <div>
+      <div className={`mx-auto ${hidden === true ? "hidden" : ""}`}>
         <label
           for="input"
           name="input"
@@ -692,15 +1180,53 @@ export let renderers = {
           className={`block mb-2  text-gray-900 dark:text-white`}
           style={{ fontSize: `${textSize}px` }}
         >
-          {label?.length === 0 ? "تقویم" : label}
+          {require === true
+            ? label?.length === 0
+              ? "تقویم *"
+              : label + " *"
+            : label?.length === 0
+            ? " تقویم"
+            : label}
         </label>
         <div date-rangepicker className="flex items-center">
-          <div className="w-full border-2 border-slate-200 rounded-md">
+          <div
+            className={`w-full border-2 border-slate-200 rounded-md ${styleInjection} ${
+              elementStatus === "false"
+                ? "bg-slate-200"
+                : elementStatus === "true" || elementStatus === "" || undefined
+                ? ""
+                : ""
+            }`}
+          >
             <DatePicker
-              className="w-full p-2 mx-6"
+              render={<InputIcon className="p-2" />}
+              className={`w-full  mx-6 ${styleInjection} ${
+                elementStatus === "false"
+                  ? "bg-slate-200"
+                  : elementStatus === "true" ||
+                    elementStatus === "" ||
+                    undefined
+                  ? ""
+                  : ""
+              }`}
+              style={{
+                backgroundColor: "#fff",
+              }}
+              calendar={persian}
+              locale={persian_fa}
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               showIcon
+              required={require}
+              disabled={
+                elementStatus === "false"
+                  ? true
+                  : elementStatus === "true" ||
+                    elementStatus === "" ||
+                    undefined
+                  ? false
+                  : false
+              }
             />
           </div>
         </div>

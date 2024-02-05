@@ -37,15 +37,15 @@ export const InputData = () => {
             ?.filter((item) => item?.type === "input" && item?.uuid)
             .map((item) => item?.description)
         : filteredElement?.description,
-    bgColor:
+    styleInjection:
       elementId !=
       json?.element
         .filter((item) => item?.type === "input")
         .map((item) => item?.uuid)
         ? json?.element
             ?.filter((item) => item?.type === "input" && item?.uuid)
-            .map((item) => item?.bgColor)
-        : filteredElement?.bgColor,
+            .map((item) => item?.styleInjection)
+        : filteredElement?.styleInjection,
     id:
       elementId !=
       json?.element

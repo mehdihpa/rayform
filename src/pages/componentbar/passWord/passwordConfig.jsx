@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { v4 as uuid } from "uuid";
 import { passwordConfig, showEdit } from "../../../redux/action";
 import { useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import {
+  Button,
+  AccordionDetails,
+  Accordion,
+  AccordionSummary,
+} from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FormatPaintIcon from "@mui/icons-material/FormatPaint";
+import DynamicFormIcon from "@mui/icons-material/DynamicForm";
 export const PasswordConfig = () => {
   const dispatchConfgi = useDispatch();
   const elementId = useSelector((state) => state?.typeElementReducer?.type?.id);
@@ -13,15 +20,21 @@ export const PasswordConfig = () => {
   );
   const showDisplay = useSelector((state) => state?.showEditReducer?.display);
   const dispatchDisplay = useDispatch();
+  const [checkRequire, setCheckRequire] = useState(false);
+  const [checkDivHidden, setCheckDivHidden] = useState(false);
   const [locationFormData, setLocationFormData] = useState({
     label: "",
     placeHolder: "",
     description: "",
-    bgColor: "",
+    styleInjection: "",
     textColor: "",
     textSize: "",
-    // status: true, // Assuming status is a string
     type: elementType,
+    elementStatus: "",
+    minLength: "",
+    maxLength: "",
+    require: checkRequire,
+    hidden: checkDivHidden,
   });
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
@@ -36,11 +49,15 @@ export const PasswordConfig = () => {
         label: selectedElement?.label || "",
         placeHolder: selectedElement?.placeHolder || "",
         description: selectedElement?.description || "",
-        bgColor: selectedElement?.bgColor || "",
+        styleInjection: selectedElement?.styleInjection || "",
         textColor: selectedElement?.textColor || "",
-        // status: selectedElement?.status || true, // Update this according to your data structure
         type: elementType,
-        textSize: locationFormData.textSize || "",
+        elementStatus: selectedElement.elementStatus || "",
+        minLength: selectedElement.minLength || "",
+        maxLength: selectedElement.maxLength || "",
+        require: checkRequire,
+        hidden: checkDivHidden,
+        textSize: selectedElement.textSize || "",
       });
     }
   }, [json.element, elementId]);
@@ -58,11 +75,15 @@ export const PasswordConfig = () => {
       label: locationFormData.label,
       placeHolder: locationFormData.placeHolder,
       description: locationFormData.description,
-      bgColor: locationFormData.bgColor,
+      styleInjection: locationFormData?.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
       textSize: locationFormData.textSize,
-      // status: true, // Update this according to your data structure
+      elementStatus: locationFormData.elementStatus,
+      minLength: locationFormData.minLength,
+      maxLength: locationFormData.maxLength,
+      require: checkRequire,
+      hidden: checkDivHidden,
     };
 
     dispatchConfgi(passwordConfig(newElement));
@@ -126,142 +147,166 @@ export const PasswordConfig = () => {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      {/* <div>
-        <label
-          for="bordered-radio-1"
-          className="w-full  py-4  text-sm font-medium text-gray-900 dark:text-gray-300"
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
         >
-          وضعیت{" "}
-        </label>
-        <div className="flex items-center mt-2 ps-4 border border-gray-200 rounded dark:border-gray-700">
-          <label
-            for="bordered-radio-1"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+          <FormatPaintIcon />{" "}
+          <div className="py-1">
+            <span>تنظیمات استایل</span>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div>
+            <label
+              htmlFor="styleInjection"
+              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              کلاس css
+            </label>
             <input
-              id="bordered-radio-1"
-              type="radio"
-              value={locationFormData.status === true}
-              name="status"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              type="text"
+              name="styleInjection"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="مثال : bg-primary bg-red-500 hidden"
+              required
               onChange={(e) => handleChange(e)}
-            />{" "}
-            فعال
-          </label>
-
-          <label
-            for="bordered-radio-2"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+              value={locationFormData.styleInjection}
+            />
+          </div>
+          <div>
+            <label className="w-full  pt-3   text-sm font-medium text-gray-900 dark:text-gray-300">
+              وضعیت{" "}
+            </label>
+            <select
+              id="elementStatus"
+              name="elementStatus"
+              onChange={(e) => handleChange(e)}
+              className="form-select mt-2"
+            >
+              <option value="true">فعال</option>
+              <option value="false">غیر فعال</option>
+            </select>
+          </div>
+          <div>
+            <label className="w-full  pt-3   text-sm font-medium text-gray-900 dark:text-gray-300">
+              سایز متن برچسب{" "}
+            </label>
+            <select
+              id="textSize"
+              name="textSize"
+              onChange={(e) => handleChange(e)}
+              className="form-select mt-2"
+            >
+              <option value="15">کوچک</option>
+              <option value="25"> متوسط</option>
+              <option value="35"> بزرگ</option>
+            </select>
+          </div>
+          <div className="flex items-start -mb-4 mt-4 pb-3">
             <input
-              id="bordered-radio-2"
-              type="radio"
-              value={locationFormData.status === false}
-              name="status"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onChange={(e) => handleChange(e)}
-            />{" "}
-            غیرفعال
-          </label>
-        </div>
-      </div> */}
-      <div>
-        <label
-          htmlFor="bgColor"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              type="checkbox"
+              name="hidden"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              onChange={(e) =>
+                e.target.checked
+                  ? setCheckDivHidden(true)
+                  : setCheckDivHidden(false)
+              }
+            />
+            <label
+              for="default-checkbox"
+              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              المنت قابل مشاهده نباشد
+            </label>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
         >
-          رنگ پس زمینه
-        </label>
-        <input
+          <DynamicFormIcon />{" "}
+          <div className="py-1 px-1">
+            <span>تنظیمات اعتبار سنجی</span>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div>
+            <label
+              htmlFor="minLength"
+              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              حداقل کاراکتر
+            </label>
+            {/* <ColorPicker
           type="text"
-          name="bgColor"
+          name="styleInjection"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="رنگ پس زمینه را وارد کنید"
           required
-          onChange={(e) => handleChange(e)}
-          value={locationFormData.bgColor}
-        />
-      </div>
-      <div>
-        <label
-          htmlFor="textColor"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          رنگ متن
-        </label>
-        <input
-          type="text"
-          name="textColor"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="رنگ متن را وارد کنید"
-          required
-          onChange={(e) => handleChange(e)}
-          value={locationFormData.textColor}
-        />
-      </div>
-      <div>
-        <label
-          for="bordered-radio-1"
-          className="w-full  py-4  text-sm font-medium text-gray-900 dark:text-gray-300"
-        >
-          سایز متن{" "}
-        </label>
-        <div className="flex items-center mt-2 justify-evenly ps-4 border border-gray-200 rounded dark:border-gray-700">
-          <label
-            for="bordered-radio-1"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+          onChange={(color) => handleColorChange(color)}
+          color={locationFormData.styleInjection}
+        /> */}
             <input
-              name="textSize"
-              type="radio"
-              checked={locationFormData.textSize === 15}
-              onChange={() =>
-                handleChange({ target: { name: "textSize", value: 15 } })
-              }
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />{" "}
-            کوچک
-          </label>
+              type="text"
+              name="minLength"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="حداقل کاراکتر را وارد کنید"
+              required
+              onChange={(e) => handleChange(e)}
+              value={locationFormData.minLength}
+            />
+          </div>
+          <div className="my-3">
+            <label
+              htmlFor="maxLength"
+              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              حداکثر کاراکتر
+            </label>
+            <input
+              type="text"
+              name="maxLength"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="حداکثر کاراکتر را وارد کنید"
+              required
+              onChange={(e) => handleChange(e)}
+              value={locationFormData.maxLength}
+            />
+          </div>
 
-          <label
-            for="bordered-radio-2"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+          <div className="flex items-start -mb-4 mt-4 pb-3">
             <input
-              name="textSize"
-              onChange={() =>
-                handleChange({ target: { name: "textSize", value: 25 } })
+              type="checkbox"
+              name="require"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              onChange={(e) =>
+                e.target.checked
+                  ? setCheckRequire(true)
+                  : setCheckRequire(false)
               }
-              type="radio"
-              checked={locationFormData.textSize === 25}
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />{" "}
-            متوسط
-          </label>
-          <label
-            for="bordered-radio-2"
-            className="w-20 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            <input
-              name="textSize"
-              onChange={() =>
-                handleChange({ target: { name: "textSize", value: 35 } })
-              }
-              type="radio"
-              checked={locationFormData.textSize === 35}
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />{" "}
-            بزرگ
-          </label>
-        </div>
-      </div>
+            />
+            <label
+              for="default-checkbox"
+              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              الزامی میباشد
+            </label>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+
       <Button
         onClick={handleDispatch}
         variant="contained"
         startIcon={<AppRegistrationIcon />}
+        ل
       >
         ثبت تغییرات
       </Button>
