@@ -563,37 +563,7 @@ export let renderers = {
     } = NumberData();
     const [messageMinLength, setMessageMinLength] = useState(false);
     const [showRequire, setShowRequire] = useState(false);
-    const [filterCondition, setfilterCondition] = useState(false);
-
     const [inputValue, setInputValue] = useState(minLength);
-    console.log(inputValue, "iput");
-    const controlInput = async (e) => {
-      if (e.target.value >= minLength && e.target.value <= maxLength) {
-        await setInputValue(e.target.value);
-      } else {
-        (await e.target.value) === "";
-        await setfilterCondition(true);
-      }
-      if (e.target.value.length === 0 && require === true) {
-        // if (
-        //   !isNaN(e.target.valueValue) &&
-        //   e.target.value >= minLength &&
-        //   e.target.value <= maxLength
-        // ) {
-        //   setInputValue(e.target.value);
-        // } else {
-        // }
-        setShowRequire(true);
-      } else {
-        setShowRequire(false);
-      }
-      if (e.target.value.length < minLength) {
-        setMessageMinLength(true);
-      } else {
-        setMessageMinLength(false);
-      }
-    };
-
     useEffect(() => {
       if (inputValue.length === 0) {
         setInputValue(minLength);
@@ -604,6 +574,29 @@ export let renderers = {
         setShowRequire(false);
       }
     }, [require, inputValue, minLength, inputValue]);
+
+    const controlInput = (e) => {
+      const newValue = parseInt(e.target.value, 10);
+
+      // Check if the new value is between 15 and 20
+      if (!isNaN(newValue) && newValue >= minLength && newValue <= maxLength) {
+        setInputValue(newValue);
+        // Add additional logic or set states as needed
+      } else {
+        // Handle case when the value is not between 15 and 20
+        // You can show an error message or take other actions
+      }
+      if (e.target.value.length === 0 && require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+      if (e.target.value.length < minLength) {
+        setMessageMinLength(true);
+      } else {
+        setMessageMinLength(false);
+      }
+    };
 
     return (
       <div className={`${hidden === true ? "hidden" : ""}`}>
