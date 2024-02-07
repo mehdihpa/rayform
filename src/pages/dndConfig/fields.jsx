@@ -627,7 +627,6 @@ export let renderers = {
           placeholder={placeHolder}
           onChange={controlInput}
           type="number"
-          onBlur={() => (filterCondition === false ? setInputValue("") : "")}
           disabled={
             elementStatus === "false"
               ? true
