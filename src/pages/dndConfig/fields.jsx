@@ -565,7 +565,7 @@ export let renderers = {
     const [showRequire, setShowRequire] = useState(false);
     const [inputValue, setInputValue] = useState(minLength);
     useEffect(() => {
-      if (inputValue.length === 0) {
+      if (inputValue?.length === 0) {
         setInputValue(minLength);
       }
       if (require === true) {
@@ -576,7 +576,7 @@ export let renderers = {
     }, [require, inputValue, minLength, inputValue]);
 
     const controlInput = (e) => {
-      const newValue = parseInt(e.target.value, 10);
+      const newValue = parseInt(e?.target?.value, 10);
 
       // Check if the new value is between 15 and 20
       if (!isNaN(newValue) && newValue >= minLength && newValue <= maxLength) {
@@ -586,7 +586,7 @@ export let renderers = {
         // Handle case when the value is not between 15 and 20
         // You can show an error message or take other actions
       }
-      if (e.target.value.length === 0 && require === true) {
+      if (e.target.value?.length === 0 && require === true) {
         setShowRequire(true);
       } else {
         setShowRequire(false);
@@ -597,7 +597,6 @@ export let renderers = {
         setMessageMinLength(false);
       }
     };
-
     return (
       <div className={`${hidden === true ? "hidden" : ""}`}>
         <label
