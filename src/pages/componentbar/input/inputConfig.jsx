@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { inputConfig, showEdit } from "../../../redux/action";
-import { useSelector } from "react-redux";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import {
   Button,

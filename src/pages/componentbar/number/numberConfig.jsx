@@ -242,7 +242,7 @@ export const NumberConfig = () => {
               htmlFor="minLength"
               className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              حداقل کاراکتر
+              شروع اعداد از
             </label>
             {/* <ColorPicker
           type="text"
@@ -257,7 +257,7 @@ export const NumberConfig = () => {
               type="text"
               name="minLength"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="حداقل کاراکتر را وارد کنید"
+              placeholder=" شروع اعداد را وارد کنید"
               required
               onChange={(e) => handleChange(e)}
               value={locationFormData.minLength}
@@ -268,13 +268,13 @@ export const NumberConfig = () => {
               htmlFor="maxLength"
               className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              حداکثر کاراکتر
+              پایان اعداد 
             </label>
             <input
               type="text"
               name="maxLength"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="حداکثر کاراکتر را وارد کنید"
+              placeholder=" پایان اعداد را وارد کنید"
               required
               onChange={(e) => handleChange(e)}
               value={locationFormData.maxLength}

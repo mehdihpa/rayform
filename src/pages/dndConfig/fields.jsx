@@ -563,16 +563,26 @@ export let renderers = {
     } = NumberData();
     const [messageMinLength, setMessageMinLength] = useState(false);
     const [showRequire, setShowRequire] = useState(false);
-    useEffect(() => {
-      if (require === true) {
-        setShowRequire(true);
+    const [filterCondition, setfilterCondition] = useState(false);
+
+    const [inputValue, setInputValue] = useState(minLength);
+    console.log(inputValue, "iput");
+    const controlInput = async (e) => {
+      if (e.target.value >= minLength && e.target.value <= maxLength) {
+        await setInputValue(e.target.value);
       } else {
-        setShowRequire(false);
+        (await e.target.value) === "";
+        await setfilterCondition(true);
       }
-    }, [require]);
-    const controlInput = (e) => {
-      console.log();
       if (e.target.value.length === 0 && require === true) {
+        // if (
+        //   !isNaN(e.target.valueValue) &&
+        //   e.target.value >= minLength &&
+        //   e.target.value <= maxLength
+        // ) {
+        //   setInputValue(e.target.value);
+        // } else {
+        // }
         setShowRequire(true);
       } else {
         setShowRequire(false);
@@ -583,6 +593,17 @@ export let renderers = {
         setMessageMinLength(false);
       }
     };
+
+    useEffect(() => {
+      if (inputValue.length === 0) {
+        setInputValue(minLength);
+      }
+      if (require === true) {
+        setShowRequire(true);
+      } else {
+        setShowRequire(false);
+      }
+    }, [require, inputValue, minLength, inputValue]);
 
     return (
       <div className={`${hidden === true ? "hidden" : ""}`}>
@@ -600,8 +621,8 @@ export let renderers = {
             : label}
         </label>
         <input
-          type="number"
           id="visitors"
+          value={inputValue}
           className={` ${styleInjection} ${
             elementStatus === "false"
               ? "bg-slate-200"
@@ -611,9 +632,9 @@ export let renderers = {
           } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
           required={require}
           placeholder={placeHolder}
-          minLength={minLength}
           onChange={controlInput}
-          maxLength={maxLength}
+          type="number"
+          onBlur={() => (filterCondition === false ? setInputValue("") : "")}
           disabled={
             elementStatus === "false"
               ? true
@@ -625,9 +646,9 @@ export let renderers = {
         <span
           className={`block my-2 ${
             messageMinLength === true ? "" : "hidden"
-          } text-danger`}
+          } text-secondary`}
         >
-          حداقل کاراکتر {minLength} میباشد
+          شروع اعداد از {minLength} تا {maxLength} است
         </span>
         <span className={`${showRequire === true ? "" : "hidden"} text-danger`}>
           {label} الزامی است

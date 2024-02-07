@@ -238,3 +238,11 @@ body {
 .muirtl-r16uq1 {
   border-radius: 10px;
 }
+.icon.icon-tabler.icon-tabler-calendar-event {
+  position: absolute;
+  left: 87px !important;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: inherit;
+  cursor: pointer;
+}

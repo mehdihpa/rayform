@@ -94,6 +94,8 @@ function SortableField(props) {
   let dispatchDisplay = useDispatch();
 
   let resetElementType = useDispatch();
+  console.log(field, "fff");
+
   useEffect(() => {}, [json.element, json.element, field]);
   return (
     <div className="flex- flex-col mx-3 my-8  ">
@@ -417,10 +419,10 @@ export default function Canvas(props) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
+  console.log(fields, "fff");
   return (
     <div ref={setNodeRef} className="canvas" style={style} {...listeners}>
-      <div className="canvas-fields ">
+      <div className=" ">
         {fields.map((f, i) => (
           <SortableField
             key={f.id}
