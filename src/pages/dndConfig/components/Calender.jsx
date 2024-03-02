@@ -15,43 +15,40 @@ const Calender = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
   const label = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.label);
+    .map((item) => item.label)[0];
   const styleInjection = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.styleInjection);
+    .map((item) => item.styleInjection)[0];
   const textSize = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.textSize);
+    .map((item) => item.textSize)[0];
   const placeHolder = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.placeHolder);
+    .map((item) => item.placeHolder)[0];
   const description = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.description);
+    .map((item) => item.description)[0];
   const elementStatus = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.elementStatus);
+    .map((item) => item.elementStatus)[0];
   const minLength = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.minLength);
+    .map((item) => item.minLength)[0];
   const maxLength = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.maxLength);
+    .map((item) => item.maxLength)[0];
   const require = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.require);
+    .map((item) => item.require)[0];
   const hidden = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.hidden);
+    .map((item) => item.hidden)[0];
   const regex = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.regex);
+    .map((item) => item.regex)[0];
   const messageRegex = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.messageRegex);
-  const textColor = json.element
-    .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.textColor);
+    .map((item) => item.messageRegex)[0];
   useEffect(() => {
     if (require === true) {
       setShowRequire(true);
@@ -111,9 +108,9 @@ const Calender = (props) => {
           ? " تقویم"
           : label}
       </label>
-      <div date-rangepicker className="flex items-center">
+      <div date-rangepicker className="flex items-center ">
         <div
-          xclassName={`w-full border-2 border-slate-200 rounded-md ${styleInjection} ${
+          className={` ${styleInjection} ${
             elementStatus === "false"
               ? "bg-slate-200"
               : elementStatus === "true" || elementStatus === "" || undefined
@@ -122,8 +119,8 @@ const Calender = (props) => {
           }`}
         >
           <DatePicker
-            render={<InputIcon className="p-2" />}
-            className={`w-full  mx-6 ${styleInjection} ${
+            // render={<InputIcon className="p-2" />}
+            className={`    ${styleInjection} ${
               elementStatus === "false"
                 ? "bg-slate-200"
                 : elementStatus === "true" || elementStatus === "" || undefined
@@ -131,7 +128,10 @@ const Calender = (props) => {
                 : ""
             }`}
             style={{
-              backgroundColor: "#fff",
+              // backgroundColor: "#fff",
+              width: "210px",
+              border: "1px solid #dee2e6",
+              padding:"19.5px 10px"
             }}
             calendar={persian}
             locale={persian_fa}

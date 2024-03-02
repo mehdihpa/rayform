@@ -9,40 +9,40 @@ const Password = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
   const label = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.label);
+    .map((item) => item.label)[0];
   const styleInjection = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.styleInjection);
+    .map((item) => item.styleInjection)[0];
   const textSize = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.textSize);
+    .map((item) => item.textSize)[0];
   const placeHolder = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.placeHolder);
+    .map((item) => item.placeHolder)[0];
   const description = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.description);
+    .map((item) => item.description)[0];
   const elementStatus = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.elementStatus);
+    .map((item) => item.elementStatus)[0];
   const minLength = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.minLength);
+    .map((item) => item.minLength)[0];
   const maxLength = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.maxLength);
+    .map((item) => item.maxLength)[0];
   const require = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.require);
+    .map((item) => item.require)[0];
   const hidden = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.hidden);
+    .map((item) => item.hidden)[0];
   const regex = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.regex);
+    .map((item) => item.regex)[0];
   const messageRegex = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.messageRegex);
+    .map((item) => item.messageRegex)[0];
   useEffect(() => {
     if (require === true) {
       setShowRequire(true);

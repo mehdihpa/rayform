@@ -10,44 +10,43 @@ const Input = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
   const label = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.label);
+    .map((item) => item.label)[0];
   const styleInjection = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.styleInjection);
+    .map((item) => item.styleInjection)[0];
   const textSize = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.textSize);
+    .map((item) => item.textSize)[0];
   const placeHolder = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.placeHolder);
+    .map((item) => item.placeHolder)[0];
   const description = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.description);
+    .map((item) => item.description)[0];
   const elementStatus = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.elementStatus);
+    .map((item) => item.elementStatus)[0];
   const minLength = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.minLength);
+    .map((item) => item.minLength)[0];
   const maxLength = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.maxLength);
-  const require = json.element
+    .map((item) => item.maxLength)[0];
+  const isRequired = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.require);
+    .map((item) => item.require)[0];
   const hidden = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.hidden);
+    .map((item) => item.hidden)[0];
   const regex = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.regex);
+    .map((item) => item.regex)[0];
   const messageRegex = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.messageRegex);
-  
+    .map((item) => item.messageRegex)[0];
   const controlInput = (e) => {
-    console.log();
-    if (e.target.value.length === 0 && require === true) {
+    console.log(e.target.value.length);
+    if (e.target.value.length === 0 && isRequired === true) {
       setShowRequire(true);
     } else {
       setShowRequire(false);
@@ -83,24 +82,33 @@ const Input = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
       hidden: "",
       regex: "",
       messageRegex: "",
     };
 
     dispatchConfgi(inputConfig(newElement));
-  },[]);
+  }, []);
+  const [requireCheck, setRequireCheck] = useState(0);
+  useEffect(() => {
+    if (isRequired === true) {
+      setShowRequire(true);
+    } else {
+      setShowRequire(false);
+    }
+  }, [isRequired, regex, messageRegex]);
+
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
       <label
         htmlFor={props?.id}
         name="input"
-        type="input"
+        type="text"
         className={`block mb-2   text-gray-900 dark:text-white`}
         style={{ fontSize: `${textSize}px` }}
       >
-        {require !== true ? label : label + "*"}
+        {isRequired === false ? label : label + "*"}
       </label>
       <input
         type="text"
@@ -112,7 +120,7 @@ const Input = (props) => {
             ? ""
             : ""
         } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-        required={require}
+        // required={requireField}
         placeholder={placeHolder}
         minLength={minLength}
         onChange={controlInput}

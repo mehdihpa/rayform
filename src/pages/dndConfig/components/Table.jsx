@@ -11,13 +11,13 @@ const Table = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
   const urlTable = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.urlTable);
+    .map((item) => item.urlTable)[0];
   const mapPath = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.mapPath);
+    .map((item) => item.mapPath)[0];
   const dataTable = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.dataTable);
+    .map((item) => item.dataTable)[0];
   useEffect(() => {
     getFakeData(urlTable).then((res) => {
       setData(res?.[mapPath]);

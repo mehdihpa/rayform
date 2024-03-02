@@ -9,22 +9,22 @@ const CheckBox = (props) => {
   const [showRequire, setShowRequire] = useState(false);
   const label = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.label);
+    .map((item) => item.label)[0];
   const styleInjection = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.styleInjection);
+    .map((item) => item.styleInjection)[0];
   const textColor = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.textColor);
+    .map((item) => item.textColor)[0];
   const hidden = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.hidden);
+    .map((item) => item.hidden)[0];
   const elementStatus = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.elementStatus);
+    .map((item) => item.elementStatus)[0];
   const textSize = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.textSize);
+    .map((item) => item.textSize)[0];
   const dispatchConfgi = useDispatch();
 
   useEffect(() => {
