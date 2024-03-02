@@ -128,10 +128,10 @@ const Calender = (props) => {
                 : ""
             }`}
             style={{
-              // backgroundColor: "#fff",
               width: "210px",
               border: "1px solid #dee2e6",
-              padding:"19.5px 10px"
+              padding: "20.5px 10px",
+              borderRadius: "9px",
             }}
             calendar={persian}
             locale={persian_fa}
