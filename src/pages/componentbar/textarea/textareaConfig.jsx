@@ -30,7 +30,6 @@ export const TextareaConfig = () => {
   const [locationFormData, setLocationFormData] = useState({
     label: "",
     placeHolder: "",
-    description: "",
     styleInjection: "",
     textColor: "",
     textSize: "",
@@ -53,7 +52,6 @@ export const TextareaConfig = () => {
       setLocationFormData({
         label: selectedElement?.label || "",
         placeHolder: selectedElement?.placeHolder || "",
-        description: selectedElement?.description || "",
         styleInjection: selectedElement?.styleInjection || "",
         textColor: selectedElement?.textColor || "",
         type: elementType,
@@ -79,7 +77,6 @@ export const TextareaConfig = () => {
       uuid: elementId,
       label: locationFormData.label,
       placeHolder: locationFormData.placeHolder,
-      description: locationFormData.description,
       styleInjection: locationFormData.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
@@ -135,23 +132,7 @@ export const TextareaConfig = () => {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <div>
-        <label
-          for="description"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          توضیحات
-        </label>
-        <input
-          type="text"
-          name="description"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="توضیحات را وارد کنید"
-          required
-          value={locationFormData.description}
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
+     
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

@@ -47,8 +47,8 @@ body {
   border: 2px solid #f0eeeedc;
   margin: 16px 15px;
   border-radius: 6px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  
   height: 700px;
   overflow: scroll !important;
 }

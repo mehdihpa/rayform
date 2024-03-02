@@ -14,7 +14,7 @@ function PrimaryNavbar() {
   const [notificationCount, setNotificationCount] = useState(11);
 
   return (
-    <nav className="flex flex-row items-center mx-2   my-2">
+    <nav dir="rtl" className="flex flex-row items-center mx-2   my-2">
       <div className="flex flex-row items-center">
         <Link to={"/"}>
           <img src={logo} />{" "}

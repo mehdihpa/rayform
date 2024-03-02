@@ -8,7 +8,7 @@ export const InputData = () => {
     (item) => item?.uuid === elementId
   )[0];
   useEffect(() => {}, [elementId, filteredElement]);
-
+  console.log(elementId, "elementId");
   return {
     label:
       elementId !=
