@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { inputConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 
 const Input = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
@@ -44,7 +45,9 @@ const Input = (props) => {
   const messageRegex = json.element
     .filter((item) => item?.uuid === props?.id)
     .map((item) => item.messageRegex)[0];
+  const [text, setText] = useState("");
   const controlInput = (e) => {
+    setText(e.target.value);
     console.log(e.target.value.length);
     if (e.target.value.length === 0 && isRequired === true) {
       setShowRequire(true);
@@ -68,7 +71,10 @@ const Input = (props) => {
     }
   };
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -84,12 +90,24 @@ const Input = (props) => {
       maxLength: "",
       require: false,
       hidden: "",
+      key: key,
       regex: "",
+      value: text,
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(inputConfig(newElement));
-  }, []);
+  }, [
+    text,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   const [requireCheck, setRequireCheck] = useState(0);
   useEffect(() => {
     if (isRequired === true) {
@@ -100,7 +118,7 @@ const Input = (props) => {
   }, [isRequired, regex, messageRegex]);
 
   return (
-    <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
+    <div dir="rtl" className={`p-2 mb-3  ${hidden === true ? "hidden" : ""}`}>
       <label
         htmlFor={props?.id}
         name="input"

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { buttonConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 // import { Line } from 'react-chartjs-2';
 
 const Button = (props) => {
@@ -30,7 +31,10 @@ const Button = (props) => {
     }
   }, [require]);
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -43,14 +47,24 @@ const Button = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
+      key: key,
       hidden: "",
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(buttonConfig(newElement));
-  }, []);
+  }, [
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className={`mb-3 p-2 ${hidden === true ? "hidden" : ""}`}>
       <br />

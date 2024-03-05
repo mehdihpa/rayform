@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // import { Line } from 'react-chartjs-2';
 import { useDispatch, useSelector } from "react-redux";
 import { passwordConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 const Password = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
   const [showRequire, setShowRequire] = useState(false);
@@ -50,7 +51,11 @@ const Password = (props) => {
       setShowRequire(false);
     }
   }, [require, regex, messageRegex]);
+  const [text, setText] = useState("");
+
   const controlInput = (e) => {
+    setText(e.target.value);
+
     console.log();
     if (e.target.value.length === 0 && require === true) {
       setShowRequire(true);
@@ -74,7 +79,10 @@ const Password = (props) => {
     }
   };
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -88,14 +96,26 @@ const Password = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
+      value: text,
       hidden: "",
+      key: key,
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(passwordConfig(newElement));
-  }, []);
+  }, [
+    text,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
       <label

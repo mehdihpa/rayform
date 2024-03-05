@@ -50,7 +50,12 @@ const Email = (props) => {
       setShowRequire(false);
     }
   }, [require, regex, messageRegex]);
+  const [text, setText] = useState("");
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+
   const controlInput = (e) => {
+    setText(e.target.value);
+
     console.log();
     if (e.target.value.length === 0 && require === true) {
       setShowRequire(true);
@@ -88,14 +93,26 @@ const Email = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
+      value: text,
+      key: key,
       hidden: "",
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(emailConfig(newElement));
-  }, []);
+  }, [
+    text,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   console.log(require);
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>

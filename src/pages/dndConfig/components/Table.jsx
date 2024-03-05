@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFakeData } from "../../../api/appApi";
 import { tableConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 
 // import { Line } from 'react-chartjs-2';
 
@@ -11,20 +12,21 @@ const Table = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
   const urlTable = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.urlTable)[0];
+    .map((item) => item.urlTable);
   const mapPath = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.mapPath)[0];
+    .map((item) => item.mapPath);
   const dataTable = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.dataTable)[0];
+    .map((item) => item.dataTable);
   useEffect(() => {
     getFakeData(urlTable).then((res) => {
       setData(res?.[mapPath]);
     });
-  }, [mapPath]);
+  }, [json]);
   console.log(dataTable?.dropdownNameOptions);
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
 
   useEffect(() => {
     const newElement = {
@@ -36,14 +38,24 @@ const Table = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
       hidden: "",
+      key: key,
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(tableConfig(newElement));
-  }, []);
+  }, [
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className="mb-3 p-2 block">
       {dataTable[0]?.dropdownNameOptions === undefined ? (

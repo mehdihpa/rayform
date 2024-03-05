@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { inputConfig, showEdit } from "../../../redux/action";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import {
@@ -39,12 +39,8 @@ export const InputConfig = () => {
   });
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
-
+  const selectedElement = json.element.find((item) => item?.uuid === elementId);
   useEffect(() => {
-    const selectedElement = json.element.find(
-      (item) => item?.uuid === elementId
-    );
-
     if (selectedElement) {
       setLocationFormData({
         label: selectedElement?.label || "",
@@ -54,6 +50,7 @@ export const InputConfig = () => {
         textColor: selectedElement?.textColor || "",
         // status: selectedElement?.status || true, // Update this according to your data structure
         type: elementType,
+        value: selectedElement.value,
         textSize: selectedElement.textSize || "",
         elementStatus: selectedElement.elementStatus || "",
         minLength: selectedElement.minLength || "",
@@ -83,6 +80,9 @@ export const InputConfig = () => {
   //     styleInjection: color.hex,
   //   });
   // };
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
+
   const handleDispatch = () => {
     const newElement = {
       uuid: elementId,
@@ -91,6 +91,7 @@ export const InputConfig = () => {
       description: locationFormData.description,
       styleInjection: locationFormData.styleInjection,
       textColor: locationFormData.textColor,
+      key: selectedElement?.key,
       type: elementType,
       textSize: locationFormData.textSize,
       elementStatus: locationFormData.elementStatus,
@@ -98,8 +99,15 @@ export const InputConfig = () => {
       maxLength: locationFormData.maxLength,
       require: checkRequire,
       hidden: checkDivHidden,
+      value: selectedElement.value,
       regex: locationFormData.regex,
       messageRegex: locationFormData.messageRegex,
+      width: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.width)[0],
+      transform: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.transform),
     };
     dispatchDisplay(showEdit(false));
 

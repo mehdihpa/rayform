@@ -36,7 +36,11 @@ const genericElementConfigReducer = (state = initialState, action) => {
         require,
         hidden,
         regex,
+        width,
+        transform,
         messageRegex,
+        key,
+        value,
       } = action.data;
 
       // Filter out empty objects from the existing elements
@@ -65,6 +69,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   textSize: textSize,
                   type: type,
                   mapPath: mapPath,
+                  key: key,
                   urlTable: urlTable,
                   dataTable: dataTable,
                   dropdownData: dropdownData,
@@ -75,6 +80,9 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   hidden: hidden,
                   regex: regex,
                   messageRegex: messageRegex,
+                  width: width,
+                  tranform: transform,
+                  value: value,
                 }
               : el
           ),
@@ -105,6 +113,10 @@ const genericElementConfigReducer = (state = initialState, action) => {
               hidden,
               regex,
               messageRegex,
+              width,
+              transform,
+              key,
+              value,
             },
           ],
         };

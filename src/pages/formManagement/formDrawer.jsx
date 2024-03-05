@@ -8,6 +8,8 @@ import { Form } from "samin-form-render";
 import PlaceHolder from "../dndConfig/PlaceHolder";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Input from "../dndConfig/components/Input";
+import Email from "../dndConfig/components/Email";
 
 function getData(prop) {
   return prop?.data?.current ?? {};
@@ -66,11 +68,12 @@ export default function FormDrawer() {
 
           <div
             style={{ direction: "ltr" }}
-            className="flex flex-col gap-y- mt-2  border border-amber-100 rounded-md  p-3"
+            className="flex flex-col items-center mt-2  border border-amber-100 rounded-md  p-3"
           >
-            <div className="mt-2 ">
+            <div className="mt-2 w-[790px]">
               <Form fields={json?.element} />{" "}
             </div>
+            
           </div>
         </div>
       </div>

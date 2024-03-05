@@ -7,9 +7,10 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { useDispatch, useSelector } from "react-redux";
 import { dateConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 
 const Calender = (props) => {
-  let [startDate, setStartDate] = useState(new Date());
+  let [startDate, setStartDate] = useState({ format: "MM/DD/YYYY" });
   const [messageMinLength, setMessageMinLength] = useState(false);
   const [showRequire, setShowRequire] = useState(false);
   const json = useSelector((state) => state?.genericElementConfigReducer);
@@ -70,7 +71,10 @@ const Calender = (props) => {
     }
   };
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -83,14 +87,26 @@ const Calender = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
       hidden: "",
+      value: startDate.toDate?.(),
+      key: key,
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(dateConfig(newElement));
-  }, []);
+  }, [
+    startDate,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
       <label
@@ -108,47 +124,37 @@ const Calender = (props) => {
           ? " تقویم"
           : label}
       </label>
-      <div date-rangepicker className="flex items-center ">
-        <div
-          className={` ${styleInjection} ${
-            elementStatus === "false"
-              ? "bg-slate-200"
-              : elementStatus === "true" || elementStatus === "" || undefined
-              ? ""
-              : ""
-          }`}
-        >
-          <DatePicker
-            // render={<InputIcon className="p-2" />}
-            className={`    ${styleInjection} ${
-              elementStatus === "false"
-                ? "bg-slate-200"
-                : elementStatus === "true" || elementStatus === "" || undefined
-                ? ""
-                : ""
-            }`}
-            style={{
-              width: "210px",
-              border: "1px solid #dee2e6",
-              padding: "20.5px 10px",
-              borderRadius: "9px",
-            }}
-            calendar={persian}
-            locale={persian_fa}
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            showIcon
-            required={require}
-            disabled={
-              elementStatus === "false"
-                ? true
-                : elementStatus === "true" || elementStatus === "" || undefined
-                ? false
-                : false
-            }
-          />
-        </div>
-      </div>
+
+      <DatePicker
+        // render={<InputIcon className="p-2" />}
+        className={`    ${styleInjection} ${
+          elementStatus === "false"
+            ? "bg-slate-200"
+            : elementStatus === "true" || elementStatus === "" || undefined
+            ? ""
+            : ""
+        }`}
+        style={{
+          // backgroundColor: "#fff",
+          width: "210px",
+          border: "1px solid #dee2e6",
+          padding: "20.5px 10px",
+          borderRadius: "9px",
+        }}
+        calendar={persian}
+        locale={persian_fa}
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        showIcon
+        required={require}
+        disabled={
+          elementStatus === "false"
+            ? true
+            : elementStatus === "true" || elementStatus === "" || undefined
+            ? false
+            : false
+        }
+      />
     </div>
   );
 };

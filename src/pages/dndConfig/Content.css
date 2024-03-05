@@ -29,3 +29,6 @@
   bottom: 105px;
 }
 
+.react-grid-item.medhi {
+  background-color: rgb(238, 20, 20) !important;
+}

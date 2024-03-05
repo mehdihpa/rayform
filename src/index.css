@@ -48,7 +48,7 @@ body {
   margin: 16px 15px;
   border-radius: 6px;
   display: grid;
-  
+
   height: 700px;
   overflow: scroll !important;
 }

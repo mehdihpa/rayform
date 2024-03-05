@@ -63,12 +63,10 @@ export const DDConfig = () => {
   });
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
-
+  const selectedElement = json?.element.find(
+    (item) => item?.uuid === elementId
+  );
   useEffect(() => {
-    const selectedElement = json?.element.find(
-      (item) => item?.uuid === elementId
-    );
-
     if (selectedElement) {
       setLocationFormData({
         label: selectedElement?.label || "",
@@ -108,6 +106,8 @@ export const DDConfig = () => {
 
     setDropdownKeyOptions(updatedKeyOptions);
   };
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
   const handleDispatch = () => {
     const newElement = {
       uuid: elementId,
@@ -117,6 +117,7 @@ export const DDConfig = () => {
       styleInjection: locationFormData.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
+      key: selectedElement?.key,
       require: checkRequire,
       elementStatus: locationFormData.elementStatus || "",
       hidden: checkDivHidden,
@@ -124,6 +125,12 @@ export const DDConfig = () => {
       dropdownData: {
         dropdownNameOptions: dropdownNameOptions,
       },
+      width: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.width)[0],
+      transform: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.transform),
       // status: true, // Update this according to your data structure
     };
 

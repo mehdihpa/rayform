@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dropdownConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 // import { Line } from 'react-chartjs-2';
 
 const DropDown = (props) => {
@@ -18,7 +19,7 @@ const DropDown = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
   const label = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.label)[0];
+    .map((item) => item.label);
   const placeHolder = json.element
     .filter((item) => item?.uuid === props?.id)
     .map((item) => item.placeHolder)[0];
@@ -36,7 +37,7 @@ const DropDown = (props) => {
     .map((item) => item.textSize)[0];
   const dropdownData = json.element
     .filter((item) => item?.uuid === props?.id)
-    .map((item) => item.dropdownData)[0];
+    .map((item) => item.dropdownData);
   const require = json.element
     .filter((item) => item?.uuid === props?.id)
     .map((item) => item.require)[0];
@@ -53,21 +54,36 @@ const DropDown = (props) => {
       setShowRequire(false);
     }
   }, [require, dropdownData]);
-  const controlInput = (e) => {
-    console.log();
+  const [personName, setPersonName] = React.useState([]);
+
+  const handleChange = (event) => {
     if (e.target.value.length === 0 && require === true) {
       setShowRequire(true);
     } else {
       setShowRequire(false);
     }
-    if (e.target.value.length < minLength) {
-      setMessageMinLength(true);
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+  const controlInput = (e) => {
+    setText(e.target.value);
+    console.log(e.target.value);
+    if (e.target.value.length === 0 && require === true) {
+      setShowRequire(true);
     } else {
-      setMessageMinLength(false);
+      setShowRequire(false);
     }
   };
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -80,18 +96,29 @@ const DropDown = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
       hidden: "",
+      key: key,
+      value: personName,
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(dropdownConfig(newElement));
-  }, []);
+  }, [
+    personName,
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className="mb-3 p-2">
       <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
+        <FormControl className="mt-3" fullWidth>
           <InputLabel
             id="demo-simple-select-label"
             style={{ fontSize: `${textSize}px`, color: `${textColor}` }}
@@ -117,7 +144,9 @@ const DropDown = (props) => {
             input={<OutlinedInput label="Name" />}
             style={{ backgroundColor: styleInjection, color: textColor }}
             required={require}
-            onChange={controlInput}
+            multiple
+            value={personName}
+            onChange={handleChange}
             disabled={
               elementStatus === "false"
                 ? true

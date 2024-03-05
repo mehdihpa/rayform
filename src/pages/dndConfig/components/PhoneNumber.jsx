@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { mobileConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 // import { Line } from 'react-chartjs-2';
 
 const PhoneNumber = (props) => {
@@ -54,8 +55,9 @@ const PhoneNumber = (props) => {
       setShowRequire(false);
     }
   }, [require, regex, messageRegex]);
+  const [text, setText] = useState("");
   const controlInput = (e) => {
-    console.log();
+    setText(e.target.value);
     if (e.target.value.length === 0 && require === true) {
       setShowRequire(true);
     } else {
@@ -78,7 +80,10 @@ const PhoneNumber = (props) => {
     }
   };
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -92,14 +97,26 @@ const PhoneNumber = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
+      key: key,
       hidden: "",
+      value: text,
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(mobileConfig(newElement));
-  }, []);
+  }, [
+    text,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
       <form className={`mx-auto`}>

@@ -38,12 +38,8 @@ export const PasswordConfig = () => {
   });
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
-
+  const selectedElement = json.element.find((item) => item?.uuid === elementId);
   useEffect(() => {
-    const selectedElement = json.element.find(
-      (item) => item?.uuid === elementId
-    );
-
     if (selectedElement) {
       setLocationFormData({
         label: selectedElement?.label || "",
@@ -68,7 +64,8 @@ export const PasswordConfig = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
   const handleDispatch = () => {
     const newElement = {
       uuid: elementId,
@@ -78,12 +75,20 @@ export const PasswordConfig = () => {
       styleInjection: locationFormData?.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
+      key: selectedElement?.key,
       textSize: locationFormData.textSize,
       elementStatus: locationFormData.elementStatus,
       minLength: locationFormData.minLength,
       maxLength: locationFormData.maxLength,
       require: checkRequire,
+      value: selectedElement?.value,
       hidden: checkDivHidden,
+      width: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.width)[0],
+      transform: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.transform),
     };
 
     dispatchConfgi(passwordConfig(newElement));

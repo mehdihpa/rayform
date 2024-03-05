@@ -42,12 +42,8 @@ export const TextareaConfig = () => {
   });
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
-
+  const selectedElement = json.element.find((item) => item?.uuid === elementId);
   useEffect(() => {
-    const selectedElement = json.element.find(
-      (item) => item?.uuid === elementId
-    );
-
     if (selectedElement) {
       setLocationFormData({
         label: selectedElement?.label || "",
@@ -71,7 +67,8 @@ export const TextareaConfig = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
   const handleDispatch = () => {
     const newElement = {
       uuid: elementId,
@@ -85,7 +82,15 @@ export const TextareaConfig = () => {
       minLength: locationFormData.minLength,
       maxLength: locationFormData.maxLength,
       require: checkRequire,
+      key: selectedElement?.key,
       hidden: checkDivHidden,
+      value: selectedElement?.value,
+      width: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.width)[0],
+      transform: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.transform),
     };
 
     dispatchConfgi(textAreaConfig(newElement));
@@ -132,7 +137,7 @@ export const TextareaConfig = () => {
           onChange={(e) => handleChange(e)}
         />
       </div>
-     
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

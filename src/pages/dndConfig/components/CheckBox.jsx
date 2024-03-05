@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkBoxConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 // import { Line } from 'react-chartjs-2';
 
 const CheckBox = (props) => {
   const json = useSelector((state) => state?.genericElementConfigReducer);
+  const [check, setCheck] = useState(false);
   const [showRequire, setShowRequire] = useState(false);
   const label = json.element
     .filter((item) => item?.uuid === props?.id)
@@ -26,7 +28,14 @@ const CheckBox = (props) => {
     .filter((item) => item?.uuid === props?.id)
     .map((item) => item.textSize)[0];
   const dispatchConfgi = useDispatch();
+  const checkOnChange = (e) => {
+    console.log(e.target.checked);
+    setCheck(e.target.checked);
+  };
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -39,20 +48,33 @@ const CheckBox = (props) => {
       elementStatus: "",
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
       hidden: "",
       regex: "",
+      key: key,
+      value: check,
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(checkBoxConfig(newElement));
-  }, []);
+  }, [
+    check,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
       <input
         id="default-checkbox"
         type="checkbox"
-        value=""
+        value={check}
+        onChange={checkOnChange}
         className={`  ${
           elementStatus === "false"
             ? "bg-slate-200"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ItemTypes } from "./ItemTypes";
 import { useDrop } from "react-dnd";
 import BarChart from "./components/Button";
@@ -99,10 +99,16 @@ const Content = (props) => {
   const handleRemoveClick = (itemId) => {
     setRow((old) => old.filter((item) => item.id !== itemId));
   };
-
+  useEffect(() => {}, []);
   return (
     <div className="">
-      <div className=" mr-2 -mt-6  " ref={drop} style={{ height: "auto" }}>
+      <div
+        className="1 mr-2 -mt-6  "
+        ref={drop}
+        style={{
+          height: "auto",
+        }}
+      >
         <ReactGridLayout
           compactType={"horizontal"}
           // rowHeight= {200}
@@ -128,9 +134,9 @@ const Content = (props) => {
                 // >
                 //   <div className="Piece">
                 //     <span className="Piece-phrase "> */}
-                <div className="" key={index + 1}>
+                <div className="23 " key={index + 1}>
                   {ele.name === "input" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -188,9 +194,9 @@ const Content = (props) => {
                       />
 
                       <Input id={ele.id} factor={index + 1}></Input>
-                    </>
+                    </div>
                   ) : ele.name === "button" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -237,9 +243,9 @@ const Content = (props) => {
                       />
 
                       <Button id={ele.id} factor={index + 1}></Button>
-                    </>
+                    </div>
                   ) : ele.name === "passWord" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -292,9 +298,9 @@ const Content = (props) => {
                         }}
                       />
                       <Password id={ele.id} factor={index + 1}></Password>
-                    </>
+                    </div>
                   ) : ele.name === "number" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -348,9 +354,9 @@ const Content = (props) => {
                         }}
                       />
                       <Number id={ele.id} factor={index + 1}></Number>
-                    </>
+                    </div>
                   ) : ele.name === "textarea" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -404,9 +410,9 @@ const Content = (props) => {
                         }}
                       />
                       <TextArea id={ele.id} factor={index + 1}></TextArea>
-                    </>
+                    </div>
                   ) : ele.name === "checkBox" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -457,9 +463,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <CheckBox id={ele.id} factor={index + 1}></CheckBox>
-                    </>
+                    </div>
                   ) : ele.name === "radioButton" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -510,9 +516,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <Radio id={ele.id} factor={index + 1}></Radio>
-                    </>
+                    </div>
                   ) : ele.name === "email" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -565,9 +571,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <Email id={ele?.id} factor={index + 1}></Email>
-                    </>
+                    </div>
                   ) : ele.name === "phoneNumber" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -618,9 +624,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <PhoneNumber id={ele.id} factor={index + 1}></PhoneNumber>
-                    </>
+                    </div>
                   ) : ele.name === "url" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -672,9 +678,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <Link id={ele.id} factor={index + 1}></Link>
-                    </>
+                    </div>
                   ) : ele.name === "dropDown" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -724,9 +730,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <DropDown id={ele.id} factor={index + 1}></DropDown>
-                    </>
+                    </div>
                   ) : ele.name === "day" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -773,9 +779,9 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <Calender id={ele.id} factor={index + 1}></Calender>
-                    </>
+                    </div>
                   ) : ele.name === "table" ? (
-                    <>
+                    <div id={ele?.id} className={`${ele?.id} in`}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {
@@ -826,7 +832,7 @@ const Content = (props) => {
                         }}
                       />{" "}
                       <Table id={ele.id} factor={index + 1}></Table>
-                    </>
+                    </div>
                   ) : (
                     <PieChart></PieChart>
                   )}

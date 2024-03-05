@@ -99,12 +99,8 @@ export const TableConfig = () => {
   };
 
   const json = useSelector((state) => state?.genericElementConfigReducer);
-
+  const selectedElement = json.element.find((item) => item?.uuid === elementId);
   useEffect(() => {
-    const selectedElement = json.element.find(
-      (item) => item?.uuid === elementId
-    );
-
     if (selectedElement) {
       setLocationFormData({
         label: selectedElement?.label || "",
@@ -130,7 +126,8 @@ export const TableConfig = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
   const handleDispatch = () => {
     const newElement = {
       uuid: elementId,
@@ -140,12 +137,20 @@ export const TableConfig = () => {
       styleInjection: locationFormData.styleInjection,
       textColor: locationFormData.textColor,
       type: elementType,
+      key: selectedElement?.key,
+
       textSize: locationFormData.textSize,
       mapPath: locationFormData.mapPath,
       urlTable: locationFormData.urlTable,
       dataTable: {
         dropdownNameOptions: dropdownNameOptions,
       },
+      width: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.width)[0],
+      transform: elements
+        .filter((item) => item?.firstChild?.id === elementId)
+        .map((item) => item?.style?.transform),
       // status: true, // Update this according to your data structure
     };
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // import { Line } from 'react-chartjs-2';
 import { useDispatch, useSelector } from "react-redux";
 import { numberConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 const Number = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
   const [showRequire, setShowRequire] = useState(false);
@@ -50,8 +51,9 @@ const Number = (props) => {
       setShowRequire(false);
     }
   }, [require, regex, messageRegex]);
+  const [text, setText] = useState("");
   const controlInput = (e) => {
-    console.log();
+    setText(e.target.value);
     if (e.target.value.length === 0 && require === true) {
       setShowRequire(true);
     } else {
@@ -74,7 +76,10 @@ const Number = (props) => {
     }
   };
   const dispatchConfgi = useDispatch();
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+  var elements = document.getElementsByClassName("23");
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
@@ -86,16 +91,28 @@ const Number = (props) => {
       type: "number",
       textSize: "",
       elementStatus: "",
+      key: key,
       minLength: "",
       maxLength: "",
-      require: "",
+      require: false,
+      value: text,
       hidden: "",
       regex: "",
       messageRegex: "",
+      width: elements
+        .filter((item) => item?.firstChild?.id === props?.id)
+        .map((item) => item?.style?.width)[0],
+      transform: "",
     };
 
     dispatchConfgi(numberConfig(newElement));
-  }, []);
+  }, [
+    text,
+    elements[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.width)[0],
+  ]);
   return (
     <div dir="rtl" className={`p-2 mb-3 ${hidden === true ? "hidden" : ""}`}>
       <label
