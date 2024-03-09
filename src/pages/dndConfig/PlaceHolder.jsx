@@ -167,7 +167,7 @@ const PlaceHolder = (props) => {
             {[...Array(rowCount)].map((_, index) => {
               return (
                 <>
-                  <div className="pt-2" key={index} style={{ marginBottom: 10 }}>
+                  <div className="pt-1" key={index} style={{ marginBottom: 10 }}>
                     <Content
                       change={(data) => {
                         changeHandler(index, data);

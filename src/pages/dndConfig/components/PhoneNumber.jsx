@@ -82,31 +82,32 @@ const PhoneNumber = (props) => {
   const dispatchConfgi = useDispatch();
   const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
   var elements = document.getElementsByClassName("23");
-
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
   elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      label: "شماره همراه",
-      placeHolder: "لطفا شماره همراه را وارد کنید",
-      description: "",
-      styleInjection: "",
-      textColor: "",
+      label: selectedElement?.label || "شماره همراه",
+      placeHolder:
+        selectedElement?.placeHolder || "لطفا شماره همراه را وارد کنید",
+      description: selectedElement?.description || "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "phoneNumber",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      hidden: selectedElement?.hidden || false,
       key: key,
-      hidden: "",
+      regex: selectedElement?.regex || "",
       value: text,
-      regex: "",
-      messageRegex: "",
+      messageRegex: selectedElement?.messageRegex || "",
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
 
     dispatchConfgi(mobileConfig(newElement));
@@ -146,7 +147,7 @@ const PhoneNumber = (props) => {
             </svg>
           </div>
           <input
-            type="text"
+            type="number"
             id="phone-input"
             aria-describedby="helper-text-explanation"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"

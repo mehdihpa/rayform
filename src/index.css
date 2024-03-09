@@ -246,3 +246,6 @@ body {
   background-color: inherit;
   cursor: pointer;
 }
+div.react-grid-item.23.react-draggable.cssTransforms.react-resizable{
+  margin-top: -29px !important;
+}

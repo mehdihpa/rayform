@@ -73,22 +73,22 @@ const Calender = (props) => {
   const dispatchConfgi = useDispatch();
   const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
   var elements = document.getElementsByClassName("23");
-
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
   elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      label: "تاریخ",
-      description: "",
-      styleInjection: "",
-      textColor: "",
+      label: selectedElement?.label || "تاریخ",
+      description: selectedElement?.description || "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "day",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
-      hidden: "",
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      hidden: selectedElement?.hidden || false,
       value: startDate.toDate?.(),
       key: key,
       regex: "",
@@ -96,7 +96,7 @@ const Calender = (props) => {
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
 
     dispatchConfgi(dateConfig(newElement));

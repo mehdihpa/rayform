@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { inputConfig } from "../../../redux/action";
 import { nanoid } from "nanoid";
+import Draggable from "react-draggable";
 
 const Input = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
@@ -73,33 +74,32 @@ const Input = (props) => {
   const dispatchConfgi = useDispatch();
   const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
   var elements = document.getElementsByClassName("23");
-
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
   elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      label: "ورودی",
-      placeHolder: "لطفا ورودی را وارد کنید",
-      description: "",
-      styleInjection: "",
-      textColor: "",
+      label: selectedElement?.label || "ورودی",
+      placeHolder: selectedElement?.placeHolder || "لطفا ورودی را وارد کنید",
+      description: selectedElement?.description || "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "input",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
-      hidden: "",
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      hidden: selectedElement?.hidden || false,
       key: key,
-      regex: "",
+      regex: selectedElement?.regex || "",
       value: text,
-      messageRegex: "",
+      messageRegex: selectedElement?.messageRegex || "",
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
-
     dispatchConfgi(inputConfig(newElement));
   }, [
     text,
@@ -116,8 +116,23 @@ const Input = (props) => {
       setShowRequire(false);
     }
   }, [isRequired, regex, messageRegex]);
+  const [currentPosition, setCurrentPosition] = useState({
+    xRate: 10,
+    // yRate: 10,
+  });
 
+  const onDrag = (e, data) => {
+    setCurrentPosition({ yRate: data.lasty });
+  };
   return (
+    // <Draggable
+    // axis="y"
+
+    //   onDrag={onDrag}
+    // >
+    // <div className="Piece">
+    //   {" "}
+    //   <span className="Piece-phrase ">
     <div dir="rtl" className={`p-2 mb-3  ${hidden === true ? "hidden" : ""}`}>
       <label
         htmlFor={props?.id}
@@ -168,6 +183,9 @@ const Input = (props) => {
         {label} الزامی است
       </span>
     </div>
+    /* </span>{" "}
+      </div>
+    </Draggable> */
   );
 };
 

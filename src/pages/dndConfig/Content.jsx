@@ -66,7 +66,7 @@ const Content = (props) => {
     setLayout(layouts);
   };
   const [currentPosition, setCurrentPosition] = useState({
-    xRate: 0,
+    xRate: 10,
     yRate: 10,
   });
 
@@ -95,15 +95,18 @@ const Content = (props) => {
       isOver: !!monitor.isOver(),
     }),
   });
-  console.log(row);
   const handleRemoveClick = (itemId) => {
     setRow((old) => old.filter((item) => item.id !== itemId));
   };
-  useEffect(() => {}, []);
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
+  console.log(elements?.length);
+  // useEffect(() => {}, [elements?.map((item) => item?.style?.width)]);
+
   return (
     <div className="">
       <div
-        className="1 mr-2 -mt-6  "
+        className="1 mr-2 mt-6  "
         ref={drop}
         style={{
           height: "auto",
@@ -114,29 +117,22 @@ const Content = (props) => {
           // rowHeight= {200}
           cols={4}
           onResize={onResize}
+          // droppingItem={{ i: "xx", h: 50, w: 250 }}
           width={100}
+          // droppingItem= { i: "", 12: number, h: 12 }
           layout={layout}
           onLayoutChange={onLayoutChange}
           // draggableHandle=".MyDragHandleClassName"
-          draggableCancel=".MyDragCancel"
-          isBounded={true}
+          // draggableCancel=".MyDragCancel"
+          // isBounded={true}
         >
           {row.length !== 0 ? (
             row.map((ele, index) => {
               console.log(index);
               return (
-                //            {/* <Draggable
-                //   position={{
-                //     x: currentPosition.xRate,
-                //     y: currentPosition.yRate,
-                //   }}
-                //   onDrag={onDrag}
-                // >
-                //   <div className="Piece">
-                //     <span className="Piece-phrase "> */}
                 <div className="23 " key={index + 1}>
                   {ele.name === "input" ? (
-                    <div id={ele?.id} className={`${ele?.id} in`}>
+                    <div id={ele?.id} className={` ${ele?.id} `}>
                       <DeleteOutline
                         className="text-red-600 cursor-pointer"
                         onClick={() => {

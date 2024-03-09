@@ -27,26 +27,31 @@ const Table = (props) => {
   console.log(dataTable?.dropdownNameOptions);
   const dispatchConfgi = useDispatch();
   const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
-
+  var elements = document.getElementsByClassName("23");
+  elements = Array.from(elements); //convert to array
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      styleInjection: "",
-      textColor: "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "table",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
-      hidden: "",
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      dataTable: selectedElement?.dataTable || "",
+      urlTable: selectedElement?.urlTable || "",
+      mapPath: selectedElement?.mapPath || "",
+      hidden: selectedElement?.hidden || false,
       key: key,
       regex: "",
       messageRegex: "",
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
 
     dispatchConfgi(tableConfig(newElement));

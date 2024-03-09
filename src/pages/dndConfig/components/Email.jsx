@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // import { Line } from 'react-chartjs-2';
 import { useDispatch, useSelector } from "react-redux";
 import { emailConfig } from "../../../redux/action";
+import { nanoid } from "nanoid";
 const Email = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
   const [showRequire, setShowRequire] = useState(false);
@@ -51,7 +52,6 @@ const Email = (props) => {
     }
   }, [require, regex, messageRegex]);
   const [text, setText] = useState("");
-  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
 
   const controlInput = (e) => {
     setText(e.target.value);
@@ -79,30 +79,34 @@ const Email = (props) => {
     }
   };
   const dispatchConfgi = useDispatch();
+  var elements = document.getElementsByClassName("23");
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
+  const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
 
+  elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      label: "ایمیل",
-      placeHolder: "لطفا ایمیل را وارد کنید",
-      description: "",
-      styleInjection: "",
-      textColor: "",
+      label: selectedElement?.label || "ایمیل",
+      placeHolder: selectedElement?.placeHolder || "لطفا ایمیل را وارد کنید",
+      description: selectedElement?.description || "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "email",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
-      value: text,
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      hidden: selectedElement?.hidden || false,
       key: key,
-      hidden: "",
-      regex: "",
+      regex: selectedElement?.regex || "",
+      value: text,
       messageRegex: "",
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
 
     dispatchConfgi(emailConfig(newElement));

@@ -33,29 +33,29 @@ const Button = (props) => {
   const dispatchConfgi = useDispatch();
   const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
   var elements = document.getElementsByClassName("23");
-
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
   elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      label: "ثبت ",
-      description: "",
-      styleInjection: "",
-      textColor: "",
+      label: selectedElement?.label || "ثبت ",
+      description: selectedElement?.description || "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "button",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      hidden: selectedElement?.hidden || false,
       key: key,
-      hidden: "",
-      regex: "",
-      messageRegex: "",
+      regex: selectedElement?.regex || "",
+      messageRegex: selectedElement?.messageRegex || "",
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
 
     dispatchConfgi(buttonConfig(newElement));

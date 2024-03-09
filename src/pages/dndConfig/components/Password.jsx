@@ -81,31 +81,31 @@ const Password = (props) => {
   const dispatchConfgi = useDispatch();
   const key = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
   var elements = document.getElementsByClassName("23");
-
+  const selectedElement = json.element.find((item) => item?.uuid === props?.id);
   elements = Array.from(elements); //convert to array
   useEffect(() => {
     const newElement = {
       uuid: props?.id,
-      label: "رمز عبور",
-      placeHolder: "لطفا رمز عبور را وارد کنید",
-      description: "",
-      styleInjection: "",
-      textColor: "",
+      label: selectedElement?.label || "رمزعبور",
+      placeHolder: selectedElement?.placeHolder || "لطفا رمزعبور را وارد کنید",
+      description: selectedElement?.description || "",
+      styleInjection: selectedElement?.styleInjection || "",
+      textColor: selectedElement?.textColor || "",
       type: "passWord",
-      textSize: "",
-      elementStatus: "",
-      minLength: "",
-      maxLength: "",
-      require: false,
-      value: text,
-      hidden: "",
+      textSize: selectedElement?.textSize || "",
+      elementStatus: selectedElement?.elementStatus || "",
+      minLength: selectedElement?.minLength || "",
+      maxLength: selectedElement?.maxLength || "",
+      require: selectedElement?.require || false,
+      hidden: selectedElement?.hidden || false,
       key: key,
-      regex: "",
-      messageRegex: "",
+      regex: selectedElement?.regex || "",
+      value: text,
+      messageRegex: selectedElement?.messageRegex || "",
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: "",
+      transform: selectedElement?.transform || "",
     };
 
     dispatchConfgi(passwordConfig(newElement));
