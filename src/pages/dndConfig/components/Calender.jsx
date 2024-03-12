@@ -136,7 +136,11 @@ const Calender = (props) => {
         }`}
         style={{
           // backgroundColor: "#fff",
-          width: "210px",
+          width: `${
+            elements
+              .filter((item) => item?.firstChild?.id === props?.id)
+              .map((item) => item?.style?.width)[0]
+          }`,
           border: "1px solid #dee2e6",
           padding: "20.5px 10px",
           borderRadius: "9px",
