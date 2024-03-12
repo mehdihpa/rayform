@@ -55,7 +55,10 @@ const Button = (props) => {
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: selectedElement?.transform || "",
+      transform:
+        elements
+          .filter((item) => item?.firstChild?.id === props?.id)
+          .map((item) => item?.style?.transform)[0] || "",
     };
 
     dispatchConfgi(buttonConfig(newElement));
@@ -64,6 +67,9 @@ const Button = (props) => {
     elements
       .filter((item) => item?.firstChild?.id === props?.id)
       .map((item) => item?.style?.width)[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.transform)[0],
   ]);
   return (
     <div dir="rtl" className={`mb-3 p-2 ${hidden === true ? "hidden" : ""}`}>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { inputConfig } from "../../../redux/action";
 import { nanoid } from "nanoid";
 import Draggable from "react-draggable";
+import Swal from "sweetalert2";
 
 const Input = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
@@ -98,7 +99,10 @@ const Input = (props) => {
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: selectedElement?.transform || "",
+      transform:
+        elements
+          .filter((item) => item?.firstChild?.id === props?.id)
+          .map((item) => item?.style?.transform)[0] || "",
     };
     dispatchConfgi(inputConfig(newElement));
   }, [
@@ -107,6 +111,9 @@ const Input = (props) => {
     elements
       .filter((item) => item?.firstChild?.id === props?.id)
       .map((item) => item?.style?.width)[0],
+    elements
+      .filter((item) => item?.firstChild?.id === props?.id)
+      .map((item) => item?.style?.transform)[0],
   ]);
   const [requireCheck, setRequireCheck] = useState(0);
   useEffect(() => {
@@ -125,14 +132,7 @@ const Input = (props) => {
     setCurrentPosition({ yRate: data.lasty });
   };
   return (
-    // <Draggable
-    // axis="y"
-
-    //   onDrag={onDrag}
-    // >
-    // <div className="Piece">
-    //   {" "}
-    //   <span className="Piece-phrase ">
+   
     <div dir="rtl" className={`p-2 mb-3  ${hidden === true ? "hidden" : ""}`}>
       <label
         htmlFor={props?.id}

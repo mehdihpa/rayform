@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { textAreaConfig } from "../../../redux/action";
 import { nanoid } from "nanoid";
+import Swal from "sweetalert2";
+
 const TextArea = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
   const [showRequire, setShowRequire] = useState(false);
@@ -105,7 +107,10 @@ const TextArea = (props) => {
       width: elements
         .filter((item) => item?.firstChild?.id === props?.id)
         .map((item) => item?.style?.width)[0],
-      transform: selectedElement?.transform || "",
+      transform:
+        elements
+          .filter((item) => item?.firstChild?.id === props?.id)
+          .map((item) => item?.style?.transform)[0] || "",
     };
 
     dispatchConfgi(textAreaConfig(newElement));

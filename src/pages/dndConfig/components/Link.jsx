@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { linkConfig } from "../../../redux/action";
 import { nanoid } from "nanoid";
+import Swal from "sweetalert2";
+
 const Link = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
   const [showRequire, setShowRequire] = useState(false);

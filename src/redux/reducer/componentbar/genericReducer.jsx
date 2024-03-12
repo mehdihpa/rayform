@@ -81,7 +81,7 @@ const genericElementConfigReducer = (state = initialState, action) => {
                   regex: regex,
                   messageRegex: messageRegex,
                   width: width,
-                  tranform: transform,
+                  transform: transform,
                   value: value,
                 }
               : el

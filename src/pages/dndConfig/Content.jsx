@@ -113,7 +113,7 @@ const Content = (props) => {
         }}
       >
         <ReactGridLayout
-          compactType={"horizontal"}
+          // compactType={"horizontal"}
           // rowHeight= {200}
           cols={4}
           onResize={onResize}
@@ -121,6 +121,8 @@ const Content = (props) => {
           width={100}
           // droppingItem= { i: "", 12: number, h: 12 }
           layout={layout}
+          // transformScale={1}
+          // preventCollision={true}
           onLayoutChange={onLayoutChange}
           // draggableHandle=".MyDragHandleClassName"
           // draggableCancel=".MyDragCancel"

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { mobileConfig } from "../../../redux/action";
 import { nanoid } from "nanoid";
 // import { Line } from 'react-chartjs-2';
+import Swal from "sweetalert2";
 
 const PhoneNumber = (props) => {
   const [messageMinLength, setMessageMinLength] = useState(false);
